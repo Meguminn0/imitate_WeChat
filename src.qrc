@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icon/chat.png</file>
+        <file>icon/close.png</file>
+        <file>icon/exit.png</file>
+        <file>icon/help.png</file>
+        <file>icon/setting.png</file>
+        <file>icon/user.png</file>
+        <file>head.png</file>
+        <file>head2.png</file>
+        <file>icon/fullScreen.png</file>
+        <file>icon/fullScreen2.png</file>
+        <file>icon/min.png</file>
+        <file>icon/fixed.png</file>
+    </qresource>
+</RCC>
