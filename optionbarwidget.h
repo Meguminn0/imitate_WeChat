@@ -1,3 +1,15 @@
+/******************************************************
+ *
+ * @file            optionbarwidget.h
+ * @briefly-Cn      选择栏
+ * @briefly-En      option bar
+ *
+ * @author          Meguminn0
+ * @date            2024/04/23
+ * @history
+ *
+********************************************************/
+
 #ifndef OPTIONBARWIDGET_H
 #define OPTIONBARWIDGET_H
 

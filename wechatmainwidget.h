@@ -1,3 +1,15 @@
+/******************************************************
+ *
+ * @file            wechatmainwidget.h
+ * @briefly-Cn      聊天主窗口
+ * @briefly-En      The main chat window
+ *
+ * @author          Meguminn0
+ * @date            2024/04/23
+ * @history
+ *
+********************************************************/
+
 #ifndef WECHATMAINWIDGET_H
 #define WECHATMAINWIDGET_H
 
@@ -20,6 +32,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void resizeEvent(QResizeEvent *event);
 
 private:
     void init();

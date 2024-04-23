@@ -27,6 +27,10 @@ wechatmainwidget::wechatmainwidget(QWidget *parent)
     this->setMinimumSize(700 + WIDGET_MARGIN * 2, 500 + WIDGET_MARGIN * 2);
 
     init();
+
+    connect(m_background_widget, &backGroundWidget::signClose, this, &wechatmainwidget::close);
+    connect(m_background_widget, &backGroundWidget::signFullScreen, this, &wechatmainwidget::showFullScreenOrNormal);
+    connect(m_background_widget, &backGroundWidget::signMin, this, &wechatmainwidget::showMinimized);
 }
 
 void wechatmainwidget::mouseMoveEvent(QMouseEvent *event)
@@ -68,6 +72,12 @@ void wechatmainwidget::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
+void wechatmainwidget::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+    m_background_widget->onResize(this->isFullScreen(), event->size().width(), event->size().height());
+}
+
 void wechatmainwidget::init()
 {
     QPalette palette;
@@ -80,12 +90,12 @@ void wechatmainwidget::init()
     m_background_widget->setGeometry(WIDGET_MARGIN, WIDGET_MARGIN, this->width() - WIDGET_MARGIN * 2, this->height() - WIDGET_MARGIN * 2);
 
     // 设置阴影
-    QGraphicsDropShadowEffect *backGround_shadowEffect = new QGraphicsDropShadowEffect(this);
-    backGround_shadowEffect->setEnabled(true);
-    backGround_shadowEffect->setBlurRadius(10);
-    backGround_shadowEffect->setColor(QColor(0, 0, 0, 64));
-    backGround_shadowEffect->setOffset(0, 0);
-    m_background_widget->setGraphicsEffect(backGround_shadowEffect);
+//    QGraphicsDropShadowEffect *backGround_shadowEffect = new QGraphicsDropShadowEffect(this);
+//    backGround_shadowEffect->setEnabled(true);
+//    backGround_shadowEffect->setBlurRadius(10);
+//    backGround_shadowEffect->setColor(QColor(0, 0, 0, 64));
+//    backGround_shadowEffect->setOffset(0, 0);
+//    m_background_widget->setGraphicsEffect(backGround_shadowEffect);
 
     // 设置整体布局
     QHBoxLayout *layout_background = new QHBoxLayout(m_background_widget);
@@ -175,13 +185,10 @@ void wechatmainwidget::showFullScreenOrNormal()
 {
     if(isFullScreen())
     {
-        m_background_widget->setGeometry(WIDGET_MARGIN, WIDGET_MARGIN, this->width() - WIDGET_MARGIN * 2, this->height() - WIDGET_MARGIN * 2);
         this->showNormal();
     }
     else
     {
-        m_background_widget->setGeometry(current_screenGeometry);
-
         this->showFullScreen();
     }
 }

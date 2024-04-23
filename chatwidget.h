@@ -1,3 +1,15 @@
+/******************************************************
+ *
+ * @file            chatwidget.h
+ * @briefly-Cn      聊天界面
+ * @briefly-En      Chat interface
+ *
+ * @author          Meguminn0
+ * @date            2024/04/23
+ * @history
+ *
+********************************************************/
+
 #ifndef CHATWIDGET_H
 #define CHATWIDGET_H
 

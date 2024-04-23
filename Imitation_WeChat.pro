@@ -16,7 +16,6 @@ SOURCES += \
     loginwidget.cpp \
     optionbarwidget.cpp \
     roundedbtn.cpp \
-    roundedwidget.cpp \
     wechatmainwidget.cpp
 
 HEADERS += \
@@ -26,7 +25,6 @@ HEADERS += \
     loginwidget.h \
     optionbarwidget.h \
     roundedbtn.h \
-    roundedwidget.h \
     wechatmainwidget.h
 
 FORMS += \
