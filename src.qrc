@@ -12,5 +12,9 @@
         <file>icon/fullScreen2.png</file>
         <file>icon/min.png</file>
         <file>icon/fixed.png</file>
+        <file>icon/collection.png</file>
+        <file>icon/file.png</file>
+        <file>icon/more.png</file>
+        <file>icon/phone.png</file>
     </qresource>
 </RCC>

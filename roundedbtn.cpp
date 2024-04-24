@@ -206,6 +206,7 @@ void roundedBtn::paintEvent(QPaintEvent *event)
     if(!this->icon().isNull())
     {
         QPixmap pixmap = this->icon().pixmap(this->iconSize());
+        pixmap.scaled(this->iconSize());
         painter.drawPixmap(rect.center() - pixmap.rect().center(), pixmap);
     }
 

@@ -27,6 +27,10 @@ public:
 
     void moveTopRightButtom();
 
+protected:
+    void init();
+    void setShadow();
+
 public slots:
     void onResize(bool isFullScreen, const int widht, const int height);
 

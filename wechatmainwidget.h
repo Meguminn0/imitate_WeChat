@@ -52,7 +52,6 @@ private:
     friendListWidget *m_friendListWidget;
     chatWidget *m_chatWidget;
 
-    QRect current_screenGeometry;
 };
 
 #endif // WECHATMAINWIDGET_H
