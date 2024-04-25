@@ -29,6 +29,7 @@ public:
 
 protected:
     void init();
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 signals:
 
@@ -36,7 +37,7 @@ private:
     QWidget *m_topBar;
     QLabel *m_userHead;
     roundedBtn *m_chatOption;
-    roundedBtn *m_Contacts;
+    roundedBtn *m_contacts;
     roundedBtn *m_collection;
     roundedBtn *m_chatFiles;
 

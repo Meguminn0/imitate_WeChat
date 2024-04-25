@@ -16,5 +16,16 @@
         <file>icon/file.png</file>
         <file>icon/more.png</file>
         <file>icon/phone.png</file>
+        <file>icon/chatEnter.png</file>
+        <file>icon/collectionEnter.png</file>
+        <file>icon/fileEnter.png</file>
+        <file>icon/moreEnter.png</file>
+        <file>icon/phoneEnter.png</file>
+        <file>icon/userEnter.png</file>
+        <file>icon/smallLink.png</file>
+        <file>icon/smallLinkEnter.png</file>
+        <file>icon/chatChecked.png</file>
+        <file>icon/collectionChecked.png</file>
+        <file>icon/userChecked.png</file>
     </qresource>
 </RCC>
