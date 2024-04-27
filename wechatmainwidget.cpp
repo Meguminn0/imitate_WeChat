@@ -26,27 +26,25 @@ wechatmainwidget::wechatmainwidget(QWidget *parent)
     this->setMinimumSize(700 + WIDGET_MARGIN * 2, 500 + WIDGET_MARGIN * 2);
 
     init();
+    m_OptionBarWidget->show();
+    m_friendListWidget->show();
+    m_chatWidget->show();
 
     connect(m_background_widget, &backGroundWidget::signClose, this, &wechatmainwidget::close);
     connect(m_background_widget, &backGroundWidget::signFullScreen, this, &wechatmainwidget::showFullScreenOrNormal);
     connect(m_background_widget, &backGroundWidget::signMin, this, &wechatmainwidget::showMinimized);
 }
 
-void wechatmainwidget::mouseMoveEvent(QMouseEvent *event)
-{
-    if(m_readyMove)
-    {
-        QPoint mouseMovePos = event->globalPos() - m_mouseStartPos;
-        this->move(m_currentPos + mouseMovePos);
-    }
-
-    QWidget::mouseMoveEvent(event);
-}
-
 void wechatmainwidget::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
     {
+        QRect rect = this->rect();
+        rect.adjusted(EDGE_WIDTH, EDGE_WIDTH, -EDGE_WIDTH, -EDGE_WIDTH);
+        if(!rect.contains(event->pos()))
+        {
+
+        }
         m_readyMove = true;
         m_mouseStartPos = event->globalPos();
         m_currentPos = this->frameGeometry().topLeft();
@@ -56,6 +54,23 @@ void wechatmainwidget::mousePressEvent(QMouseEvent *event)
     {
         QWidget::mousePressEvent(event);
     }
+}
+
+void wechatmainwidget::mouseMoveEvent(QMouseEvent *event)
+{
+    if(m_readyMove)
+    {
+        if(isFullScreen())
+        {
+            this->showNormal();
+            this->move(event->globalPos() - this->geometry().bottomRight() / 2);
+            this->m_currentPos = this->frameGeometry().topLeft();
+        }
+        QPoint mouseMovePos = event->globalPos() - m_mouseStartPos;
+        this->move(m_currentPos + mouseMovePos);
+    }
+
+    QWidget::mouseMoveEvent(event);
 }
 
 void wechatmainwidget::mouseReleaseEvent(QMouseEvent *event)
@@ -74,7 +89,7 @@ void wechatmainwidget::mouseReleaseEvent(QMouseEvent *event)
 void wechatmainwidget::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
-    m_background_widget->onResize(this->isFullScreen(), event->size().width(), event->size().height());
+    m_background_widget->onFullScreen(this->isFullScreen(), event->size().width(), event->size().height());
 }
 
 void wechatmainwidget::init()
@@ -106,7 +121,7 @@ void wechatmainwidget::init()
 
     layout_background->setDirection(QBoxLayout::LeftToRight);
     layout_optionBar->setDirection(QBoxLayout::TopToBottom);
-    layout_friendList->setDirection(QBoxLayout::TopToBottom);
+    layout_friendList->setDirection(QBoxLayout::RightToLeft);
     layout_chat->setDirection(QBoxLayout::TopToBottom);
 
     m_background_widget->setLayout(layout_background);
@@ -115,8 +130,10 @@ void wechatmainwidget::init()
     layout_background->addLayout(layout_friendList);
     layout_background->addLayout(layout_chat);
 
+    layout_background->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::MinimumExpanding, QSizePolicy::Minimum));
     layout_optionBar->addWidget(m_OptionBarWidget);
     layout_friendList->addWidget(m_friendListWidget);
+//    layout_background->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::MinimumExpanding, QSizePolicy::Minimum));
     layout_chat->addWidget(m_chatWidget);
 }
 

@@ -32,7 +32,7 @@ protected:
     void setShadow();
 
 public slots:
-    void onResize(bool isFullScreen, const int widht, const int height);
+    void onFullScreen(bool isFullScreen, const int widht, const int height);
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -44,10 +44,10 @@ signals:
     void signMin();
 
 private:
-    QPushButton *m_btn_close;
-    QPushButton *m_btn_fullScreen;
-    QPushButton *m_btn_min;
-    QPushButton *m_btn_fixed;
+    roundedBtn *m_btn_close;
+    roundedBtn *m_btn_fullScreen;
+    roundedBtn *m_btn_min;
+    roundedBtn *m_btn_fixed;
 
     int m_radius;
 };

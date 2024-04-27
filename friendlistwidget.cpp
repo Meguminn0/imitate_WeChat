@@ -3,7 +3,7 @@
 friendListWidget::friendListWidget(QWidget *parent)
     : QWidget{parent}
 {
-    this->setFixedWidth(225);
+    this->setFixedWidth(WIDGETWIDTH);
 
     QPalette palette = this->palette();
     palette.setColor(QPalette::Window, QColor(217, 216, 217));

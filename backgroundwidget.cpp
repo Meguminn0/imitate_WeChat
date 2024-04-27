@@ -9,6 +9,7 @@ backGroundWidget::backGroundWidget(QWidget *parent)
     : QWidget{parent}
 {
     setShadow();
+
     init();
 
     connect(m_btn_close, &QPushButton::clicked, this, &backGroundWidget::signClose);
@@ -32,20 +33,38 @@ void backGroundWidget::init()
 {
     // 初始化成员变量
     m_btn_close = new roundedBtn("", this);
-    m_btn_fullScreen = new roundedBtn("", this);
-    m_btn_min = new roundedBtn("", this);
-    m_btn_fixed = new roundedBtn("", this);
-
+    m_btn_close->setFixedSize(35, 27);
     m_btn_close->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarCloseButton));
+    m_btn_close->setAllowButton(Qt::LeftButton);
+    m_btn_close->setMouseNormaldColor(Qt::transparent);
+    m_btn_close->setMouseHovedColor(QColor(251, 115, 115));
+    m_btn_close->setMousePressedColor(QColor(225, 72, 72));
+
+    m_btn_fullScreen = new roundedBtn("", this);
+    m_btn_fullScreen->setFixedSize(35, 27);
     m_btn_fullScreen->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarMaxButton));
+    m_btn_fullScreen->setAllowButton(Qt::LeftButton);
+    m_btn_fullScreen->setMouseNormaldColor(Qt::transparent);
+    m_btn_fullScreen->setMouseHovedColor(QColor(226, 226, 226));
+    m_btn_fullScreen->setMousePressedColor(QColor(209, 209, 209));
+
+    m_btn_min = new roundedBtn("", this);
+    m_btn_min->setFixedSize(35, 27);
     m_btn_min->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarMinButton));
+    m_btn_min->setAllowButton(Qt::LeftButton);
+    m_btn_min->setMouseNormaldColor(Qt::transparent);
+    m_btn_min->setMouseHovedColor(QColor(226, 226, 226));
+    m_btn_min->setMousePressedColor(QColor(209, 209, 209));
+
+    m_btn_fixed = new roundedBtn("", this);
+    m_btn_fixed->setFixedSize(35, 27);
     m_btn_fixed->setIcon(QIcon(":/icon/fixed.png"));
     m_btn_fixed->setIconSize(QSize(15, 15));
+    m_btn_fixed->setAllowButton(Qt::LeftButton);
+    m_btn_fixed->setMouseNormaldColor(Qt::transparent);
+    m_btn_fixed->setMouseHovedColor(QColor(226, 226, 226));
+    m_btn_fixed->setMousePressedColor(QColor(209, 209, 209));
 
-    m_btn_close->setFixedSize(35, 27);
-    m_btn_fullScreen->setFixedSize(35, 27);
-    m_btn_min->setFixedSize(35, 27);
-    m_btn_fixed->setFixedSize(35, 27);
 }
 
 void backGroundWidget::setShadow()
@@ -58,7 +77,7 @@ void backGroundWidget::setShadow()
     this->setGraphicsEffect(shadowEffect);
 }
 
-void backGroundWidget::onResize(bool isFullScreen, const int width, const int height)
+void backGroundWidget::onFullScreen(bool isFullScreen, const int width, const int height)
 {
     if(!isFullScreen)
     {

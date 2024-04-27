@@ -26,11 +26,13 @@ class wechatmainwidget : public QWidget
 {
     Q_OBJECT
 public:
+    const int EDGE_WIDTH = 5; // 窗口的边缘宽度
+
     explicit wechatmainwidget(QWidget *parent = nullptr);
 
 protected:
-    void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void resizeEvent(QResizeEvent *event);
 

@@ -19,6 +19,8 @@ class friendListWidget : public QWidget
 {
     Q_OBJECT
 public:
+    const int WIDGETWIDTH = 226;
+
     explicit friendListWidget(QWidget *parent = nullptr);
 
 signals:
