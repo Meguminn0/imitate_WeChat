@@ -31,10 +31,6 @@ protected:
     void init();
     void setShadow();
 
-public slots:
-    void onFullScreen(bool isFullScreen, const int widht, const int height);
-
-protected:
     void paintEvent(QPaintEvent *event);
     void showEvent(QShowEvent *event);
 
@@ -42,6 +38,9 @@ signals:
     void signClose();
     void signFullScreen();
     void signMin();
+
+public slots:
+    void onFullScreen(bool isFullScreen, const int widht, const int height);
 
 private:
     roundedBtn *m_btn_close;

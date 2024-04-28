@@ -77,18 +77,11 @@ void backGroundWidget::setShadow()
     this->setGraphicsEffect(shadowEffect);
 }
 
-void backGroundWidget::onFullScreen(bool isFullScreen, const int width, const int height)
+void backGroundWidget::showEvent(QShowEvent *event)
 {
-    if(!isFullScreen)
-    {
-        setGeometry(4, 4, width - 8, height - 8);
-        moveTopRightButtom();
-    }
-    else
-    {
-        setGeometry(0, 0, width, height);
-        moveTopRightButtom();
-    }
+    QWidget::showEvent(event);
+
+    moveTopRightButtom();
 }
 
 void backGroundWidget::paintEvent(QPaintEvent *event)
@@ -106,9 +99,17 @@ void backGroundWidget::paintEvent(QPaintEvent *event)
     QWidget::paintEvent(event);
 }
 
-void backGroundWidget::showEvent(QShowEvent *event)
+void backGroundWidget::onFullScreen(bool isFullScreen, const int width, const int height)
 {
-    QWidget::showEvent(event);
-
-    moveTopRightButtom();
+    if(!isFullScreen)
+    {
+        setGeometry(4, 4, width - 8, height - 8);
+        moveTopRightButtom();
+    }
+    else
+    {
+        setGeometry(0, 0, width, height);
+        moveTopRightButtom();
+    }
 }
+
