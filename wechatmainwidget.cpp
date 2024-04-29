@@ -19,10 +19,8 @@ wechatmainwidget::wechatmainwidget(QWidget *parent)
     this->setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_Hover);
 
-    m_onEdge = false;
     m_readyResize = false;
-    m_resizeEdge = 0;
-    m_resizeEdge = 0;
+    m_resizeEdge = this->Margin_Edge::none;
     m_readyMove = false;
 
     m_background_widget = new backGroundWidget(this);
@@ -57,18 +55,14 @@ bool wechatmainwidget::event(QEvent *event)
 
 void wechatmainwidget::enterEvent(QEnterEvent *event)
 {
-//    isOnEdge(event->position().toPoint());
-
     QWidget::enterEvent(event);
 }
 
 void wechatmainwidget::leaveEvent(QEvent *event)
 {
-    if(m_onEdge)
-    {
-        this->setCursor(Qt::ArrowCursor);
-        m_onEdge = false;
-    }
+    this->setCursor(Qt::ArrowCursor);
+    m_isPressed = false;
+    m_readyResize = false;
 
     QWidget::leaveEvent(event);
 }
@@ -77,20 +71,8 @@ void wechatmainwidget::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
     {
-        if(isOnEdge(event->position().toPoint()))
-        {
-            // 如果鼠标点击在窗口边框上
-            m_readyResize = true;
-            m_currentSize = this->size();
-        }
-        else
-        {
-            // 鼠标点击不在在窗口边框上，整体移动窗口
-            m_readyMove = true;
-            m_currentPos = this->frameGeometry().topLeft();
-        }
-
-        m_mouseStartPos = event->globalPosition().toPoint();
+        m_isPressed = true;
+        m_pressedPoint = event->globalPosition().toPoint();
     }
 
     QWidget::mousePressEvent(event);
@@ -98,60 +80,24 @@ void wechatmainwidget::mousePressEvent(QMouseEvent *event)
 
 void wechatmainwidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if(m_readyResize)
+    if(m_isPressed)
     {
-        QPoint diff = event->globalPosition().toPoint() - m_mouseStartPos;
-        QSize newSize = m_currentSize;
-        if(m_resizeEdge == Qt::TopEdge || m_resizeEdge == Qt::BottomEdge)
+        if(m_readyResize)
         {
-            newSize.setHeight(newSize.height() + (m_resizeEdge == Qt::TopEdge ? -diff.y() : diff.y()));
+            m_movePoint = event->globalPosition().toPoint() - m_pressedPoint;
+            m_pressedPoint = event->globalPosition().toPoint();
         }
-        else if(m_resizeEdge == Qt::LeftEdge)
+        else
         {
-            newSize.setWidth(newSize.width() + (m_resizeEdge == Qt::LeftEdge ? -diff.x() : diff.x()));
-        }
-        else if(m_resizeConer == Qt::TopLeftCorner)
-        {
-            newSize.setHeight(newSize.height() - diff.y());
-            newSize.setWidth(newSize.width() - diff.x());
-        }
-        else if(m_resizeConer == Qt::TopRightCorner)
-        {
-            newSize.setHeight(newSize.height() - diff.y());
-            newSize.setWidth(newSize.width() + diff.x());
-        }
-        else if(m_resizeConer == Qt::BottomLeftCorner)
-        {
-            newSize.setHeight(newSize.height() + diff.y());
-            newSize.setWidth(newSize.width() - diff.x());
-        }
-        else if(m_resizeConer == Qt::BottomRightCorner)
-        {
-            newSize.setHeight(newSize.height() + diff.y());
-            newSize.setWidth(newSize.width() + diff.x());
-        }
+            QPoint point = event->globalPosition().toPoint() - m_pressedPoint;
+            move(this->pos() + point);
 
-        // 调整新窗口大小大于最小大小，小于最大大小
-        newSize = newSize.expandedTo(this->minimumSize());
-        newSize = newSize.boundedTo(this->maximumSize());
-        this->resize(newSize);
-        this->move(this->pos() + diff);
-    }
-
-    if(m_readyMove)
-    {
-        if(isFullScreen())
-        {
-            this->showNormal();
-            this->move(event->globalPosition().toPoint() - this->geometry().bottomRight() / 2);
-            this->m_currentPos = this->frameGeometry().topLeft();
+            m_pressedPoint = event->globalPosition().toPoint();
         }
-        QPoint mouseMovePos = event->globalPosition().toPoint() - m_mouseStartPos;
-        this->move(m_currentPos + mouseMovePos);
     }
 
     if (windowState() != Qt::WindowMaximized) {
-        isOnEdge(event->position().toPoint());
+        updateEdgeCheck(event);
     }
 
     QWidget::mouseMoveEvent(event);
@@ -161,19 +107,8 @@ void wechatmainwidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
     {
-        if(m_readyResize)
-        {
-            m_readyResize = false;
-            m_resizeEdge = 0;
-            m_resizeConer = 0;
-        }
-
-        if(m_readyMove)
-        {
-            m_readyMove = false;
-        }
-
-        event->accept();
+        m_isPressed = false;
+        m_readyResize = false;
     }
 
     QWidget::mouseReleaseEvent(event);
@@ -230,89 +165,160 @@ void wechatmainwidget::init()
     layout_chat->addWidget(m_chatWidget);
 }
 
-int wechatmainwidget::getEdge(QPoint mousePosition)
+void wechatmainwidget::updateEdgeCheck(QMouseEvent *event)
 {
-    if (mousePosition.y() <= EDGE_WIDTH)
-    {
-        return Qt::TopEdge;
-    }
-    else if (mousePosition.y() >= height() - EDGE_WIDTH)
-    {
-        return Qt::BottomEdge;
-    }
-    else if (mousePosition.x() <= EDGE_WIDTH)
-    {
-        return Qt::LeftEdge;
-    }
-    else if (mousePosition.x() >= width() - EDGE_WIDTH)
-    {
-        return Qt::RightEdge;
-    }
-    else
-    {
-        return 0; // 默认
-    }
-}
+    QRect rect = this->geometry();
 
-int wechatmainwidget::getCorner(QPoint mousePosition)
-{
-    if (mousePosition.x() <= EDGE_WIDTH && mousePosition.y() <= EDGE_WIDTH)
-    {
-        return Qt::TopLeftCorner;
-    }
-    else if (mousePosition.x() >= width() - EDGE_WIDTH && mousePosition.y() <= EDGE_WIDTH)
-    {
-        return Qt::TopRightCorner;
-    }
-    else if (mousePosition.x() <= EDGE_WIDTH && mousePosition.y() >= height() - EDGE_WIDTH)
-    {
-        return Qt::BottomLeftCorner;
-    }
-    else if (mousePosition.x() >= width() - EDGE_WIDTH && mousePosition.y() >= height() - EDGE_WIDTH)
-    {
-        return Qt::BottomRightCorner;
-    }
-    else
-    {
-        return 0;
-    }
-}
+    int topEdge = event->globalPosition().y() - rect.y();
+    int bottomEdge = rect.y() + rect.height() - event->globalPosition().y();
+    int leftEdge = event->globalPosition().x() - rect.x();
+    int rightEdge = rect.x() + rect.width() - event->globalPosition().x();
 
-bool wechatmainwidget::isOnEdge(QPoint pos)
-{
-    m_resizeEdge = this->getEdge(pos);
-    m_resizeConer = this->getCorner(pos);
-    if(pos.x() <= EDGE_WIDTH || pos.x() >= this->width() - EDGE_WIDTH ||
-        pos.y() <= EDGE_WIDTH || pos.y() >= this->height() - EDGE_WIDTH)
+    if(!m_readyResize)
     {
-        if(m_resizeEdge == Qt::TopEdge || m_resizeEdge == Qt::BottomEdge)
+        // 并没有开始调整窗口大小
+        if((topEdge >= EDGE_MIN_WIDTH && topEdge <= EDGE_MAX_WIDTH) &&
+            (leftEdge >= EDGE_MIN_WIDTH && leftEdge <= EDGE_MAX_WIDTH))
         {
-            this->setCursor(Qt::SizeVerCursor);
-        }
-        else if(m_resizeEdge == Qt::LeftEdge || m_resizeEdge == Qt::RightEdge)
-        {
-            this->setCursor(Qt::SizeHorCursor);
-        }
-        else if(m_resizeConer == Qt::TopLeftCorner || m_resizeConer == Qt::BottomRightCorner)
-        {
+            // 当鼠标位于左上角时
+            m_resizeEdge = Margin_Edge::topLeftCorner;
             this->setCursor(Qt::SizeFDiagCursor);
         }
-        else if(m_resizeConer == Qt::TopRightCorner || m_resizeConer == Qt::BottomLeftCorner)
+        else if((topEdge >= EDGE_MIN_WIDTH && topEdge <= EDGE_MAX_WIDTH) &&
+                (rightEdge >= EDGE_MIN_WIDTH && rightEdge <= EDGE_MAX_WIDTH))
         {
+            // 当鼠标位于右上角时
+            m_resizeEdge = Margin_Edge::topRightCorner;
             this->setCursor(Qt::SizeBDiagCursor);
+        }
+        else if((bottomEdge >= EDGE_MIN_WIDTH && bottomEdge <= EDGE_MAX_WIDTH) &&
+                 (leftEdge >= EDGE_MIN_WIDTH && leftEdge <= EDGE_MAX_WIDTH))
+        {
+            // 当鼠标位于左下角时
+            m_resizeEdge = Margin_Edge::bottomLeftCorner;
+            this->setCursor(Qt::SizeBDiagCursor);
+        }
+        else if((bottomEdge >= EDGE_MIN_WIDTH && bottomEdge <= EDGE_MAX_WIDTH) &&
+                (rightEdge >= EDGE_MIN_WIDTH && rightEdge <= EDGE_MAX_WIDTH))
+        {
+            // 当鼠标位于右下角时
+            m_resizeEdge = Margin_Edge::bottomRightCorner;
+            this->setCursor(Qt::SizeFDiagCursor);
+        }
+        else if(topEdge >= EDGE_MIN_WIDTH && topEdge <= EDGE_MAX_WIDTH)
+        {
+            // 当鼠标位于上边缘时
+            m_resizeEdge = Margin_Edge::topEdge;
+            this->setCursor(Qt::SizeVerCursor);
+        }
+        else if(bottomEdge >= EDGE_MIN_WIDTH && bottomEdge <= EDGE_MAX_WIDTH)
+        {
+            // 当鼠标位于下边缘时
+            m_resizeEdge = Margin_Edge::bottomEdge;
+            this->setCursor(Qt::SizeVerCursor);
+        }
+        else if(leftEdge >= EDGE_MIN_WIDTH && leftEdge <= EDGE_MAX_WIDTH)
+        {
+            // 当鼠标位于左边缘时
+            m_resizeEdge = Margin_Edge::leftEdge;
+            this->setCursor(Qt::SizeHorCursor);
+        }
+        else if(rightEdge >= EDGE_MIN_WIDTH && rightEdge <= EDGE_MAX_WIDTH)
+        {
+            // 当鼠标位于右边缘时
+            m_resizeEdge = Margin_Edge::rightEdge;
+            this->setCursor(Qt::SizeHorCursor);
         }
         else
         {
-            this->setCursor(Qt::ArrowCursor);
+            if(!m_isPressed)
+            {
+                this->setCursor(Qt::ArrowCursor);
+            }
         }
-        m_onEdge = true;
-    }
-    else
-    {
-        m_onEdge = false;
     }
 
-    return m_onEdge;
+    if(m_resizeEdge != Margin_Edge::none)
+    {
+        m_readyResize = true;
+        resizeWdige(topEdge, bottomEdge, leftEdge, rightEdge);
+    }
+}
+
+void wechatmainwidget::resizeWdige(int marginTop, int marginBottom, int marginLeft, int marginRight)
+{
+    if (m_isPressed)
+    {
+        QRect rect = geometry();
+        if(m_resizeEdge == Margin_Edge::topLeftCorner)
+        {
+            if (marginRight > minimumWidth() && marginBottom > minimumHeight())
+            {
+                // 当前窗口size > miniMumSize 时改变大小
+                rect.setTopLeft(rect.topLeft() + m_movePoint);
+                setGeometry(rect);
+            }
+        }
+        else if(m_resizeEdge == Margin_Edge::topRightCorner)
+        {
+            if (marginLeft > minimumWidth() && marginBottom > minimumHeight())
+            {
+                rect.setTopRight(rect.topRight() + m_movePoint);
+                setGeometry(rect);
+            }
+        }
+        else if(m_resizeEdge == Margin_Edge::bottomLeftCorner)
+        {
+            if (marginRight > minimumWidth() && marginTop > minimumHeight())
+            {
+                rect.setBottomLeft(rect.bottomLeft() + m_movePoint);
+                setGeometry(rect);
+            }
+        }
+        else if(m_resizeEdge == Margin_Edge::bottomRightCorner)
+        {
+            if(marginLeft > minimumWidth() && marginTop > minimumHeight())
+            {
+                rect.setBottomRight(rect.bottomRight() + m_movePoint);
+                setGeometry(rect);
+            }
+        }
+        else if(m_resizeEdge == Margin_Edge::topEdge)
+        {
+            if (marginBottom > minimumHeight())
+            {
+                rect.setTop(rect.y() + m_movePoint.y());
+                setGeometry(rect);
+            }
+        }
+        else if(m_resizeEdge == Margin_Edge::bottomEdge)
+        {
+            if (marginTop > minimumHeight())
+            {
+                rect.setHeight(rect.height() + m_movePoint.y());
+                setGeometry(rect);
+            }
+        }
+        else if(m_resizeEdge == Margin_Edge::leftEdge)
+        {
+            if (marginRight > minimumWidth())
+            {
+                rect.setLeft(rect.x() + m_movePoint.x());
+                setGeometry(rect);
+            }
+        }
+        else if(m_resizeEdge == Margin_Edge::rightEdge)
+        {
+            if (marginLeft > minimumWidth())
+            {
+                rect.setWidth(rect.width() + m_movePoint.x());
+                setGeometry(rect);
+            }
+        }
+    } else {
+        m_readyResize = false;
+        m_resizeEdge = Margin_Edge::none;
+    }
 }
 
 void wechatmainwidget::showFullScreenOrNormal()
