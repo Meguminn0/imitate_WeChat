@@ -53,7 +53,7 @@ void LoginWidget::init()
     ui->Btn_close->setAllowButton(Qt::LeftButton);
     ui->Btn_close->setRoundedCorner(roundedBtn::RoundedCorner::topRight);
     ui->Btn_close->setRadius(4);
-    ui->Btn_close->setMouseNormaldColor(Qt::transparent);
+    ui->Btn_close->setMouseNormalColor(Qt::transparent);
     ui->Btn_close->setMouseHovedColor(QColor(251,115,115));
     ui->Btn_close->setMousePressedColor(QColor(225,72,72));
     ui->Btn_close->setIcon(QIcon(":/icon/close.png"));
@@ -62,7 +62,7 @@ void LoginWidget::init()
     // 设置按钮 Btn_set
     ui->Btn_set->setAllowButton(Qt::LeftButton);
     ui->Btn_set->setRoundedCorner(roundedBtn::RoundedCorner::none);
-    ui->Btn_set->setMouseNormaldColor(Qt::transparent);
+    ui->Btn_set->setMouseNormalColor(Qt::transparent);
     ui->Btn_set->setMouseHovedColor(QColor(0, 0, 0, 15));
     ui->Btn_set->setMousePressedColor(QColor(0, 0, 0, 30));
     ui->Btn_set->setIcon(QIcon(":/icon/setting.png"));
@@ -96,7 +96,7 @@ void LoginWidget::init()
     palette = ui->Btn_login->palette();
     palette.setColor(QPalette::ButtonText, QColor(Qt::white));
     ui->Btn_login->setPalette(palette);
-    ui->Btn_login->setMouseNormaldColor(QColor(7,193,96));
+    ui->Btn_login->setMouseNormalColor(QColor(7,193,96));
     ui->Btn_login->setMouseHovedColor(QColor(56,205,127));
     ui->Btn_login->setMousePressedColor(QColor(6,173,86));
 

@@ -40,8 +40,8 @@ public:
     };
 
 public:
-    const int EDGE_MIN_WIDTH = 4; // 窗口的边缘最小宽度
-    const int EDGE_MAX_WIDTH = 8; // 窗口的边缘最大宽度
+    const int EDGE_MIN_WIDTH = 2; // 窗口的边缘最小宽度
+    const int EDGE_MAX_WIDTH = 10; // 窗口的边缘最大宽度
 
     explicit wechatmainwidget(QWidget *parent = nullptr);
 
@@ -57,7 +57,7 @@ protected:
 private:
     void init();
     void updateEdgeCheck(QMouseEvent *event);
-    void resizeWdige(int marginTop, int marginBottom, int marginLeft, int marginRight);
+    void resizeWdige();
 
 signals:
 
@@ -65,17 +65,14 @@ private slots:
     void showFullScreenOrNormal();
 
 private:
-    bool m_isPressed = false;
-    QPoint m_pressedPoint;
-    QPoint m_movePoint;
+    bool m_isPressed;
+    QPoint m_mousePressedPoint;
+    QPoint m_mouseMovePoint;
 
     bool m_readyResize;
     wechatmainwidget::Margin_Edge m_resizeEdge;
-    QSize m_currentSize;
-
-    bool m_readyMove;
-    QPoint m_currentPos;
-    QPoint m_mouseStartPos;
+    QSize m_pressedSize;
+    QPoint m_widgePressedPos;
 
     backGroundWidget *m_background_widget;
     OptionBarWidget *m_OptionBarWidget;

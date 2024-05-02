@@ -19,15 +19,6 @@ wechatmainwidget::wechatmainwidget(QWidget *parent)
     this->setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_Hover);
 
-    m_readyResize = false;
-    m_resizeEdge = this->Margin_Edge::none;
-    m_readyMove = false;
-
-    m_background_widget = new backGroundWidget(this);
-    m_OptionBarWidget = new OptionBarWidget(m_background_widget);
-    m_friendListWidget = new friendListWidget(m_background_widget);
-    m_chatWidget = new chatWidget(m_background_widget);
-
     this->setGeometry(400, 100, 700 + WIDGET_MARGIN * 2, 500 + WIDGET_MARGIN * 2);
     this->setMinimumSize(700 + WIDGET_MARGIN * 2, 500 + WIDGET_MARGIN * 2);
 
@@ -72,7 +63,9 @@ void wechatmainwidget::mousePressEvent(QMouseEvent *event)
     if(event->button() == Qt::LeftButton)
     {
         m_isPressed = true;
-        m_pressedPoint = event->globalPosition().toPoint();
+        m_mousePressedPoint = event->globalPosition().toPoint();
+        m_widgePressedPos = this->geometry().topLeft();
+        m_pressedSize = this->size();
     }
 
     QWidget::mousePressEvent(event);
@@ -84,15 +77,20 @@ void wechatmainwidget::mouseMoveEvent(QMouseEvent *event)
     {
         if(m_readyResize)
         {
-            m_movePoint = event->globalPosition().toPoint() - m_pressedPoint;
-            m_pressedPoint = event->globalPosition().toPoint();
+            m_mouseMovePoint = event->globalPosition().toPoint() - m_mousePressedPoint;
         }
         else
         {
-            QPoint point = event->globalPosition().toPoint() - m_pressedPoint;
-            move(this->pos() + point);
+            if(this->isFullScreen())
+            {
+                // 如果是全屏状态
+                this->showNormal();
+                move(event->globalPosition().toPoint() - this->geometry().bottomRight() / 2);
+                m_widgePressedPos = this->geometry().topLeft();
+            }
 
-            m_pressedPoint = event->globalPosition().toPoint();
+            QPoint diff = event->globalPosition().toPoint() - m_mousePressedPoint;
+            move(m_widgePressedPos + diff);
         }
     }
 
@@ -122,6 +120,15 @@ void wechatmainwidget::resizeEvent(QResizeEvent *event)
 
 void wechatmainwidget::init()
 {
+    m_isPressed = false;
+    m_readyResize = false;
+    m_resizeEdge = this->Margin_Edge::none;
+
+    m_background_widget = new backGroundWidget(this);
+    m_OptionBarWidget = new OptionBarWidget(m_background_widget);
+    m_friendListWidget = new friendListWidget(m_background_widget);
+    m_chatWidget = new chatWidget(m_background_widget);
+
     QPalette palette;
 
     // 设置背景
@@ -161,7 +168,6 @@ void wechatmainwidget::init()
     layout_background->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::MinimumExpanding, QSizePolicy::Minimum));
     layout_optionBar->addWidget(m_OptionBarWidget);
     layout_friendList->addWidget(m_friendListWidget);
-//    layout_background->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::MinimumExpanding, QSizePolicy::Minimum));
     layout_chat->addWidget(m_chatWidget);
 }
 
@@ -241,81 +247,84 @@ void wechatmainwidget::updateEdgeCheck(QMouseEvent *event)
     if(m_resizeEdge != Margin_Edge::none)
     {
         m_readyResize = true;
-        resizeWdige(topEdge, bottomEdge, leftEdge, rightEdge);
+        resizeWdige();
     }
 }
 
-void wechatmainwidget::resizeWdige(int marginTop, int marginBottom, int marginLeft, int marginRight)
+void wechatmainwidget::resizeWdige()
 {
     if (m_isPressed)
     {
-        QRect rect = geometry();
+        QPoint diff(m_mousePressedPoint.x() + m_mouseMovePoint.x(), m_mousePressedPoint.y() + m_mouseMovePoint.y());
+        QSize newSize = m_pressedSize;
         if(m_resizeEdge == Margin_Edge::topLeftCorner)
         {
-            if (marginRight > minimumWidth() && marginBottom > minimumHeight())
+            newSize.setWidth(newSize.width() - m_mouseMovePoint.x());
+            newSize.setHeight(newSize.height() - m_mouseMovePoint.y());
+            if(diff.x() <= m_mousePressedPoint.x())
             {
-                // 当前窗口size > miniMumSize 时改变大小
-                rect.setTopLeft(rect.topLeft() + m_movePoint);
-                setGeometry(rect);
+                this->move(diff.x(), this->y());
+            }
+            if(diff.y() <= m_mousePressedPoint.y())
+            {
+                this->move(this->x(), diff.y());
             }
         }
         else if(m_resizeEdge == Margin_Edge::topRightCorner)
         {
-            if (marginLeft > minimumWidth() && marginBottom > minimumHeight())
+            newSize.setWidth(newSize.width() + m_mouseMovePoint.x());
+            newSize.setHeight(newSize.height() - m_mouseMovePoint.y());
+            if(diff.y() <= m_mousePressedPoint.y())
             {
-                rect.setTopRight(rect.topRight() + m_movePoint);
-                setGeometry(rect);
+                this->move(this->x(), diff.y());
             }
         }
         else if(m_resizeEdge == Margin_Edge::bottomLeftCorner)
         {
-            if (marginRight > minimumWidth() && marginTop > minimumHeight())
+            newSize.setWidth(newSize.width() - m_mouseMovePoint.x());
+            newSize.setHeight(newSize.height() + m_mouseMovePoint.y());
+            if(diff.x() <= m_mousePressedPoint.x())
             {
-                rect.setBottomLeft(rect.bottomLeft() + m_movePoint);
-                setGeometry(rect);
+                this->move(diff.x(), this->y());
             }
         }
         else if(m_resizeEdge == Margin_Edge::bottomRightCorner)
         {
-            if(marginLeft > minimumWidth() && marginTop > minimumHeight())
-            {
-                rect.setBottomRight(rect.bottomRight() + m_movePoint);
-                setGeometry(rect);
-            }
+            newSize.setWidth(newSize.width() + m_mouseMovePoint.x());
+            newSize.setHeight(newSize.height() + m_mouseMovePoint.y());
         }
         else if(m_resizeEdge == Margin_Edge::topEdge)
         {
-            if (marginBottom > minimumHeight())
+            newSize.setHeight(newSize.height() - m_mouseMovePoint.y());
+            if(diff.y() <= m_mousePressedPoint.y())
             {
-                rect.setTop(rect.y() + m_movePoint.y());
-                setGeometry(rect);
+                this->move(this->x(), diff.y());
             }
         }
         else if(m_resizeEdge == Margin_Edge::bottomEdge)
         {
-            if (marginTop > minimumHeight())
-            {
-                rect.setHeight(rect.height() + m_movePoint.y());
-                setGeometry(rect);
-            }
+            newSize.setHeight(newSize.height() + m_mouseMovePoint.y());
         }
         else if(m_resizeEdge == Margin_Edge::leftEdge)
         {
-            if (marginRight > minimumWidth())
+            newSize.setWidth(newSize.width() - m_mouseMovePoint.x());
+            if(diff.x() <= m_mousePressedPoint.x())
             {
-                rect.setLeft(rect.x() + m_movePoint.x());
-                setGeometry(rect);
+                this->move(diff.x(), this->y());
             }
         }
         else if(m_resizeEdge == Margin_Edge::rightEdge)
         {
-            if (marginLeft > minimumWidth())
-            {
-                rect.setWidth(rect.width() + m_movePoint.x());
-                setGeometry(rect);
-            }
+            newSize.setWidth(newSize.width() + m_mouseMovePoint.x());
         }
-    } else {
+
+        newSize = newSize.expandedTo(this->minimumSize());
+        newSize = newSize.boundedTo(this->maximumSize());
+
+        this->resize(newSize);
+    }
+    else
+    {
         m_readyResize = false;
         m_resizeEdge = Margin_Edge::none;
     }

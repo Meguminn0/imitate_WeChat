@@ -44,7 +44,7 @@ void roundedBtn::setRadius(int radius)
     m_radius = radius;
 }
 
-void roundedBtn::setMouseNormaldColor(const QColor &color)
+void roundedBtn::setMouseNormalColor(const QColor &color)
 {
     m_normalColor = color;
 }

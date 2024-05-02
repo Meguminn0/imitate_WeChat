@@ -34,7 +34,7 @@ public:
     void setAllowButton(QFlags<Qt::MouseButton> mouseButton);
     int setRoundedCorner(int corner);
     void setRadius(int radius);
-    void setMouseNormaldColor(const QColor &color);
+    void setMouseNormalColor(const QColor &color);
     void setMouseHovedColor(const QColor &color);
     void setMousePressedColor(const QColor &color);
 

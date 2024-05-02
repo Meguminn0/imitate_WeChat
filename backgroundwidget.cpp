@@ -36,7 +36,7 @@ void backGroundWidget::init()
     m_btn_close->setFixedSize(35, 27);
     m_btn_close->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarCloseButton));
     m_btn_close->setAllowButton(Qt::LeftButton);
-    m_btn_close->setMouseNormaldColor(Qt::transparent);
+    m_btn_close->setMouseNormalColor(Qt::transparent);
     m_btn_close->setMouseHovedColor(QColor(251, 115, 115));
     m_btn_close->setMousePressedColor(QColor(225, 72, 72));
 
@@ -44,7 +44,7 @@ void backGroundWidget::init()
     m_btn_fullScreen->setFixedSize(35, 27);
     m_btn_fullScreen->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarMaxButton));
     m_btn_fullScreen->setAllowButton(Qt::LeftButton);
-    m_btn_fullScreen->setMouseNormaldColor(Qt::transparent);
+    m_btn_fullScreen->setMouseNormalColor(Qt::transparent);
     m_btn_fullScreen->setMouseHovedColor(QColor(226, 226, 226));
     m_btn_fullScreen->setMousePressedColor(QColor(209, 209, 209));
 
@@ -52,7 +52,7 @@ void backGroundWidget::init()
     m_btn_min->setFixedSize(35, 27);
     m_btn_min->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarMinButton));
     m_btn_min->setAllowButton(Qt::LeftButton);
-    m_btn_min->setMouseNormaldColor(Qt::transparent);
+    m_btn_min->setMouseNormalColor(Qt::transparent);
     m_btn_min->setMouseHovedColor(QColor(226, 226, 226));
     m_btn_min->setMousePressedColor(QColor(209, 209, 209));
 
@@ -61,7 +61,7 @@ void backGroundWidget::init()
     m_btn_fixed->setIcon(QIcon(":/icon/fixed.png"));
     m_btn_fixed->setIconSize(QSize(15, 15));
     m_btn_fixed->setAllowButton(Qt::LeftButton);
-    m_btn_fixed->setMouseNormaldColor(Qt::transparent);
+    m_btn_fixed->setMouseNormalColor(Qt::transparent);
     m_btn_fixed->setMouseHovedColor(QColor(226, 226, 226));
     m_btn_fixed->setMousePressedColor(QColor(209, 209, 209));
 
@@ -108,7 +108,7 @@ void backGroundWidget::onFullScreen(bool isFullScreen, const int width, const in
     }
     else
     {
-        setGeometry(0, 0, width, height);
+        setGeometry(-1, -1, width + 1, height + 1);
         moveTopRightButtom();
     }
 }
