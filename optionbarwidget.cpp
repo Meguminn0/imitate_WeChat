@@ -87,7 +87,7 @@ void OptionBarWidget::init()
     m_chatOption->installEventFilter(this);
     m_chatOption->setCheckable(true);
     m_chatOption->setChecked(true);
-    m_chatOption->setFixedSize(WIDGETWIDTH - 4, 40);
+    m_chatOption->setFixedSize(WIDGETWIDTH - 6, 40);
     m_chatOption->setMouseNormalColor(Qt::transparent);
     m_chatOption->setMouseHovedColor(Qt::transparent);
     m_chatOption->setMousePressedColor(Qt::transparent);
@@ -97,7 +97,7 @@ void OptionBarWidget::init()
     m_contacts = new roundedBtn("", m_topBar);
     m_contacts->installEventFilter(this);
     m_contacts->setCheckable(true);
-    m_contacts->setFixedSize(WIDGETWIDTH - 4, 40);
+    m_contacts->setFixedSize(WIDGETWIDTH - 6, 40);
     m_contacts->setMouseNormalColor(Qt::transparent);
     m_contacts->setMouseHovedColor(Qt::transparent);
     m_contacts->setMousePressedColor(Qt::transparent);
@@ -107,7 +107,7 @@ void OptionBarWidget::init()
     m_collection = new roundedBtn("", m_topBar);
     m_collection->installEventFilter(this);
     m_collection->setCheckable(true);
-    m_collection->setFixedSize(WIDGETWIDTH - 4, 40);
+    m_collection->setFixedSize(WIDGETWIDTH - 6, 40);
     m_collection->setMouseNormalColor(Qt::transparent);
     m_collection->setMouseHovedColor(Qt::transparent);
     m_collection->setMousePressedColor(Qt::transparent);
@@ -116,7 +116,7 @@ void OptionBarWidget::init()
 
     m_chatFiles = new roundedBtn("", m_topBar);
     m_chatFiles->installEventFilter(this);
-    m_chatFiles->setFixedSize(WIDGETWIDTH - 4, 40);
+    m_chatFiles->setFixedSize(WIDGETWIDTH - 6, 40);
     m_chatFiles->setMouseNormalColor(Qt::transparent);
     m_chatFiles->setMouseHovedColor(Qt::transparent);
     m_chatFiles->setMousePressedColor(Qt::transparent);
@@ -125,7 +125,7 @@ void OptionBarWidget::init()
 
     m_miniProgramPanel = new roundedBtn("", m_bottomBar);
     m_miniProgramPanel->installEventFilter(this);
-    m_miniProgramPanel->setFixedSize(WIDGETWIDTH - 4, 40);
+    m_miniProgramPanel->setFixedSize(WIDGETWIDTH - 6, 40);
     m_miniProgramPanel->setMouseNormalColor(Qt::transparent);
     m_miniProgramPanel->setMouseHovedColor(Qt::transparent);
     m_miniProgramPanel->setMousePressedColor(Qt::transparent);
@@ -134,7 +134,7 @@ void OptionBarWidget::init()
 
     m_yourPhone = new roundedBtn("", m_bottomBar);
     m_yourPhone->installEventFilter(this);
-    m_yourPhone->setFixedSize(WIDGETWIDTH - 4, 40);
+    m_yourPhone->setFixedSize(WIDGETWIDTH - 6, 40);
     m_yourPhone->setMouseNormalColor(Qt::transparent);
     m_yourPhone->setMouseHovedColor(Qt::transparent);
     m_yourPhone->setMousePressedColor(Qt::transparent);
@@ -143,7 +143,7 @@ void OptionBarWidget::init()
 
     m_setAndOther = new roundedBtn("", m_bottomBar);
     m_setAndOther->installEventFilter(this);
-    m_setAndOther->setFixedSize(WIDGETWIDTH - 4, 40);
+    m_setAndOther->setFixedSize(WIDGETWIDTH - 6, 40);
     m_setAndOther->setMouseNormalColor(Qt::transparent);
     m_setAndOther->setMouseHovedColor(Qt::transparent);
     m_setAndOther->setMousePressedColor(Qt::transparent);

@@ -13,10 +13,12 @@
 #ifndef FRIENDLISTWIDGET_H
 #define FRIENDLISTWIDGET_H
 
+#include "friendlistitem.h"
 #include "roundedbtn.h"
 
 #include <QWidget>
 #include <QLineEdit>
+#include <QList>
 
 class friendListWidget : public QWidget
 {
@@ -38,6 +40,8 @@ private:
 
     QLineEdit *m_searchLineEdit;
     roundedBtn *m_createGroupChat;
+
+    QList<friendlistItem*> *m_friendList;
 };
 
 #endif // FRIENDLISTWIDGET_H

@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QPen>
 #include <QPainter>
+#include <QIcon>
 
 backGroundWidget::backGroundWidget(QWidget *parent)
     : QWidget{parent}
@@ -34,7 +35,9 @@ void backGroundWidget::init()
     // 初始化成员变量
     m_btn_close = new roundedBtn("", this);
     m_btn_close->setFixedSize(35, 27);
-    m_btn_close->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarCloseButton));
+    QIcon closeIcon(":/icon/close.png");
+    m_btn_close->setIcon(closeIcon.isNull() ? this->style()->standardIcon(QStyle::SP_TitleBarCloseButton) : closeIcon);
+    m_btn_close->setIconSize(QSize(11, 11));
     m_btn_close->setAllowButton(Qt::LeftButton);
     m_btn_close->setMouseNormalColor(Qt::transparent);
     m_btn_close->setMouseHovedColor(QColor(251, 115, 115));
@@ -42,7 +45,9 @@ void backGroundWidget::init()
 
     m_btn_fullScreen = new roundedBtn("", this);
     m_btn_fullScreen->setFixedSize(35, 27);
-    m_btn_fullScreen->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarMaxButton));
+    QIcon fullScreenIcon(":/icon/fullScreen2.png");
+    m_btn_fullScreen->setIcon(fullScreenIcon.isNull() ? this->style()->standardIcon(QStyle::SP_TitleBarMaxButton) : fullScreenIcon);
+    m_btn_fullScreen->setIconSize(QSize(11, 11));
     m_btn_fullScreen->setAllowButton(Qt::LeftButton);
     m_btn_fullScreen->setMouseNormalColor(Qt::transparent);
     m_btn_fullScreen->setMouseHovedColor(QColor(226, 226, 226));
@@ -50,7 +55,9 @@ void backGroundWidget::init()
 
     m_btn_min = new roundedBtn("", this);
     m_btn_min->setFixedSize(35, 27);
-    m_btn_min->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarMinButton));
+    QIcon minIcon(":/icon/min.png");
+    m_btn_min->setIcon(minIcon.isNull() ? this->style()->standardIcon(QStyle::SP_TitleBarMinButton) : minIcon);
+    m_btn_min->setIconSize(QSize(11, 11));
     m_btn_min->setAllowButton(Qt::LeftButton);
     m_btn_min->setMouseNormalColor(Qt::transparent);
     m_btn_min->setMouseHovedColor(QColor(226, 226, 226));
@@ -58,7 +65,8 @@ void backGroundWidget::init()
 
     m_btn_fixed = new roundedBtn("", this);
     m_btn_fixed->setFixedSize(35, 27);
-    m_btn_fixed->setIcon(QIcon(":/icon/fixed.png"));
+    QIcon fixedIcon(":/icon/fixed.png");
+    m_btn_fixed->setIcon(fixedIcon);
     m_btn_fixed->setIconSize(QSize(15, 15));
     m_btn_fixed->setAllowButton(Qt::LeftButton);
     m_btn_fixed->setMouseNormalColor(Qt::transparent);

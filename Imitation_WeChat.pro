@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     backgroundwidget.cpp \
     chatwidget.cpp \
+    friendlistitem.cpp \
     friendlistwidget.cpp \
     main.cpp \
     loginwidget.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 HEADERS += \
     backgroundwidget.h \
     chatwidget.h \
+    friendlistitem.h \
     friendlistwidget.h \
     loginwidget.h \
     optionbarwidget.h \

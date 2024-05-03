@@ -41,7 +41,7 @@ public:
 
 public:
     const int EDGE_MIN_WIDTH = 2; // 窗口的边缘最小宽度
-    const int EDGE_MAX_WIDTH = 10; // 窗口的边缘最大宽度
+    const int EDGE_MAX_WIDTH = 8; // 窗口的边缘最大宽度
 
     explicit wechatmainwidget(QWidget *parent = nullptr);
 

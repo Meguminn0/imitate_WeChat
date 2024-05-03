@@ -27,5 +27,7 @@
         <file>icon/chatChecked.png</file>
         <file>icon/collectionChecked.png</file>
         <file>icon/userChecked.png</file>
+        <file>icon/plus.png</file>
+        <file>icon/seaerch.png</file>
     </qresource>
 </RCC>
