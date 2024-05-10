@@ -22,29 +22,28 @@ void friendListWidget::init()
 {
     QPalette palette;
     m_topWidget = new QWidget(this);
-    m_bottomWidget = new QWidget(this);
+    m_bottomWidget = new QListWidget(this);
 
-    m_topWidget->setFixedHeight(60);
+    m_topWidget->setFixedSize(this->width(), 60);
     palette = m_topWidget->palette();
     palette.setColor(QPalette::Window, QColor(247, 247, 247));
     m_topWidget->setAutoFillBackground(true);
     m_topWidget->setPalette(palette);
 
+    m_bottomWidget->setFixedWidth(this->width());
     palette = m_bottomWidget->palette();
-    palette.setColor(QPalette::Window, QColor(231, 229, 229));
+    palette.setColor(QPalette::Base, QColor(231, 229, 229));
     m_bottomWidget->setAutoFillBackground(true);
     m_bottomWidget->setPalette(palette);
+    m_bottomWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     QHBoxLayout *topLayout = new QHBoxLayout(m_topWidget);
-    QVBoxLayout *bottomLayout = new QVBoxLayout(m_bottomWidget);
 
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     topLayout->setContentsMargins(12, 20, 12, 10);
     topLayout->setSpacing(10);
-    bottomLayout->setContentsMargins(0, 0, 0, 0);
-    bottomLayout->setSpacing(0);
 
     m_searchLineEdit = new QLineEdit(m_topWidget);
     m_searchLineEdit->setFixedHeight(25);
@@ -81,16 +80,31 @@ void friendListWidget::init()
     layout->addWidget(m_topWidget);
     layout->addWidget(m_bottomWidget);
     m_topWidget->setLayout(topLayout);
-    m_bottomWidget->setLayout(bottomLayout);
+//    m_bottomWidget->setLayout(bottomLayout);
 
     topLayout->addWidget(m_searchLineEdit);
     topLayout->addWidget(m_createGroupChat);
 
-    m_friendList = new QList<friendlistItem*>();
-    friendlistItem *item1 = new friendlistItem();
-    friendlistItem *item2 = new friendlistItem();
+//    m_friendList = new QList<friendlistItem*>();
+    friendlistItem *item1 = new friendlistItem(m_bottomWidget);
+    friendlistItem *item2 = new friendlistItem(m_bottomWidget);
     item1->setFriendId("0");
     item2->setFriendId("1");
-    m_friendList->append(item1);
-    m_friendList->append(item2);
+
+    QListWidgetItem *listwidgetItem = new QListWidgetItem();
+    listwidgetItem->setSizeHint(item1->size());
+    m_bottomWidget->insertItem(0, listwidgetItem);
+    m_bottomWidget->setItemWidget(listwidgetItem, item1);
+
+
+    QListWidgetItem *listwidgetItem2 = new QListWidgetItem();
+    listwidgetItem2->setSizeHint(item2->size());
+    m_bottomWidget->insertItem(1, listwidgetItem2);
+    m_bottomWidget->setItemWidget(listwidgetItem2, item2);
+//    listwidgetItem->setSizeHint(QSize(this->width(), 40));
+//    listwidgetItem->setText("listItem1111");
+//    listwidgetItem->setSizeHint(QSize(0, 70));
+//    listwidgetItem->setIcon(QIcon(":/icon/Icon/head/head.png"));
+//    listwidgetItem->setToolTip("this is a list widget item");
+//    m_bottomWidget->insertItem(0, listwidgetItem);
 }

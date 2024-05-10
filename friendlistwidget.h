@@ -19,6 +19,7 @@
 #include <QWidget>
 #include <QLineEdit>
 #include <QList>
+#include <QListWidget>
 
 class friendListWidget : public QWidget
 {
@@ -36,7 +37,7 @@ signals:
 
 private:
     QWidget *m_topWidget;
-    QWidget *m_bottomWidget;
+    QListWidget *m_bottomWidget;
 
     QLineEdit *m_searchLineEdit;
     roundedBtn *m_createGroupChat;

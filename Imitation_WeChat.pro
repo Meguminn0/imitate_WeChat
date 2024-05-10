@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     backgroundwidget.cpp \
+    chatmessage.cpp \
     chatwidget.cpp \
     friendlistitem.cpp \
     friendlistwidget.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     backgroundwidget.h \
+    chatmessage.h \
     chatwidget.h \
     friendlistitem.h \
     friendlistwidget.h \

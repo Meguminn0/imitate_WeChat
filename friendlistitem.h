@@ -17,31 +17,50 @@
 #include <QLabel>
 #include <QWidget>
 
+#define LEFT_MARGIN 10
+#define TOP_MARGIN 7
+#define RIGHT_MARGIN 20
+#define BOTTOM_MARGIN 10
+#define SPACING 10
+
 class friendlistItem : public QWidget
 {
     Q_OBJECT
 public:
     explicit friendlistItem(QWidget *parent = nullptr);
-    void setFriendId(QString id);
+    void setFriendId(const QString& id);
 
 protected:
     void init();
-    QPixmap getFriendHeadPix(QString friendId);
-    QString getFriendName(QString friendId);
+    QPixmap getFriendHeadPix();
+
+    void setFriendName();
+    QSize getFriendNameSize();
+
+    void setLastMsg();
+    QSize getLastMsgSize();
+
+    void setLastChatTime();
+    QSize getLastChatTimeSize();
 
 signals:
 
 private:
     QString m_friendId;
+    QString m_friendName;
+    QString m_lastMsg;
+    QString m_lastChatTime;
 
     QHBoxLayout *m_layout;
+    QVBoxLayout *m_leftLayout;
     QVBoxLayout *m_rightLayout;
     QHBoxLayout *m_rightTopLayout;
+    QHBoxLayout *m_rightBottomLayout;
 
-    QLabel *m_friendHead;
-    QLabel *m_friendName;
-    QLabel *m_lastMessage;
-    QLabel *m_lastChatTime;
+    QLabel *m_friendHeadLabel;
+    QLabel *m_friendNameLabel;
+    QLabel *m_lastMessageLabel;
+    QLabel *m_lastChatTimeLabel;
 };
 
 #endif // FRIENDLISTITEM_H
