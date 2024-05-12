@@ -2,8 +2,8 @@
 #include <QMouseEvent>
 #include <QPainter>
 
-#include "wechatmainwidget.h"
-#include "loginwidget.h"
+#include "include/wechatmainwidget.h"
+#include "include/loginwidget.h"
 #include "ui_loginwidget.h"
 
 LoginWidget::LoginWidget(QWidget *parent)
@@ -56,7 +56,7 @@ void LoginWidget::init()
     ui->Btn_close->setMouseNormalColor(Qt::transparent);
     ui->Btn_close->setMouseHovedColor(QColor(251,115,115));
     ui->Btn_close->setMousePressedColor(QColor(225,72,72));
-    ui->Btn_close->setIcon(QIcon(":/icon/close.png"));
+    ui->Btn_close->setIcon(QIcon(":/img/icon/close.png"));
     ui->Btn_close->setIconSize(QSize(13, 13));
 
     // 设置按钮 Btn_set
@@ -65,7 +65,7 @@ void LoginWidget::init()
     ui->Btn_set->setMouseNormalColor(Qt::transparent);
     ui->Btn_set->setMouseHovedColor(QColor(0, 0, 0, 15));
     ui->Btn_set->setMousePressedColor(QColor(0, 0, 0, 30));
-    ui->Btn_set->setIcon(QIcon(":/icon/setting.png"));
+    ui->Btn_set->setIcon(QIcon(":/img/icon/setting.png"));
     ui->Btn_set->setIconSize(QSize(12, 12));
 
     // 标题 Label_title
@@ -79,7 +79,7 @@ void LoginWidget::init()
     palette.setColor(QPalette::WindowText, QColor(Qt::transparent));
     ui->label_head->setAutoFillBackground(true);
     ui->label_head->setPalette(palette);
-    QPixmap headPix(":/head.png");
+    QPixmap headPix(":/img/userHead/head.png");
     ui->label_head->setPixmap(headPix);
     ui->label_head->setScaledContents(true);
 
@@ -155,7 +155,7 @@ void LoginWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if(readyMove)
     {
-        QPoint mouseMoveDis = event->globalPos() - m_mouseStartPoint;
+        QPoint mouseMoveDis = event->globalPosition().toPoint() - m_mouseStartPoint;
         move(m_currentPoint + mouseMoveDis);
     }
 
@@ -168,7 +168,7 @@ void LoginWidget::mousePressEvent(QMouseEvent *event)
     {
         readyMove = true;
         // record the position of the current mouse pressed in the window
-        m_mouseStartPoint = event->globalPos();
+        m_mouseStartPoint = event->globalPosition().toPoint();
         // record the position of the widget in the window
         m_currentPoint = frameGeometry().topLeft();
         event->accept();

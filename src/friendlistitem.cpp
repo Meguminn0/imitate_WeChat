@@ -1,4 +1,4 @@
-#include "friendlistitem.h"
+#include "include/friendlistitem.h"
 
 #include <QFont>
 #include <QFontMetrics>
@@ -96,11 +96,11 @@ QPixmap friendlistItem::getFriendHeadPix()
     QPixmap headPix;
     if(m_friendId == "0")
     {
-        headPix.load(":/head2.png");
+        headPix.load(":/img/userHead/head2.png");
     }
     else
     {
-        headPix.load(":/head.png");
+        headPix.load(":/img/userHead/head.png");
     }
 
     return headPix;
@@ -118,7 +118,6 @@ QSize friendlistItem::getFriendNameSize()
     m_friendName = fontMetr.elidedText(m_friendName, Qt::ElideRight, this->width());
     int nameWidth = fontMetr.horizontalAdvance(m_friendName);
     int nameHeight = fontMetr.lineSpacing();
-    qDebug() << "friend name width: " << nameWidth << "height: " << nameHeight;
 
     return QSize(nameWidth, nameHeight);
 }
@@ -134,7 +133,6 @@ QSize friendlistItem::getLastMsgSize()
     m_lastMsg = fontMetr.elidedText(m_lastMsg, Qt::ElideRight, this->width() - LEFT_MARGIN - RIGHT_MARGIN - SPACING);
     int msgWidth = fontMetr.horizontalAdvance(m_lastMsg);
     int msgHeight = fontMetr.lineSpacing();
-    qDebug() << "lasts message width: " << msgWidth << "height: " << msgHeight;
 
     return QSize(msgWidth, msgHeight);
 }
@@ -149,7 +147,6 @@ QSize friendlistItem::getLastChatTimeSize()
     QFontMetrics fontMetr(this->font());
     int lstTimeWidth = fontMetr.horizontalAdvance(m_lastChatTime);
     int lstTimeHeight = fontMetr.lineSpacing();
-    qDebug() << "last chat time width: " << lstTimeWidth << "height: " << lstTimeHeight;
 
     return QSize(lstTimeWidth, lstTimeHeight);
 }

@@ -9,30 +9,30 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    backgroundwidget.cpp \
-    chatmessage.cpp \
-    chatwidget.cpp \
-    friendlistitem.cpp \
-    friendlistwidget.cpp \
-    main.cpp \
-    loginwidget.cpp \
-    optionbarwidget.cpp \
-    roundedbtn.cpp \
-    wechatmainwidget.cpp
+    src/backgroundwidget.cpp \
+    src/chatmessagebox.cpp \
+    src/chatwidget.cpp \
+    src/friendlistitem.cpp \
+    src/friendlistwidget.cpp \
+    src/main.cpp \
+    src/loginwidget.cpp \
+    src/optionbarwidget.cpp \
+    src/roundedbtn.cpp \
+    src/wechatmainwidget.cpp
 
 HEADERS += \
-    backgroundwidget.h \
-    chatmessage.h \
-    chatwidget.h \
-    friendlistitem.h \
-    friendlistwidget.h \
-    loginwidget.h \
-    optionbarwidget.h \
-    roundedbtn.h \
-    wechatmainwidget.h
+    include/backgroundwidget.h \
+    include/chatmessagebox.h \
+    include/chatwidget.h \
+    include/friendlistitem.h \
+    include/friendlistwidget.h \
+    include/loginwidget.h \
+    include/optionbarwidget.h \
+    include/roundedbtn.h \
+    include/wechatmainwidget.h
 
 FORMS += \
-    loginwidget.ui
+    ui/loginwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

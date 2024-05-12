@@ -1,6 +1,6 @@
 /******************************************************
  *
- * @file            chatmessage.h
+ * @file            chatmessagebox.h
  * @briefly-Cn      聊天框
  * @briefly-En      Chat box
  *
@@ -10,12 +10,13 @@
  *
 ********************************************************/
 
-#ifndef CHATMESSAGE_H
-#define CHATMESSAGE_H
+#ifndef CHATMESSAGEBOX_H
+#define CHATMESSAGEBOX_H
 
+#include <QSize>
 #include <QWidget>
 
-class chatMessage : public QWidget
+class chatMessageBox : public QWidget
 {
     Q_OBJECT
 public:
@@ -27,9 +28,9 @@ public:
         TIME = 3,   // 时间
     };
 
-    explicit chatMessage(QWidget *parent = nullptr);
+    explicit chatMessageBox(QWidget *parent = nullptr);
 
-    void setText(const QString &text, const QString &time, const MSG_TYPE& type);
+    QSize setText(const QString &text, const QString &time, const MSG_TYPE& type);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -43,32 +44,36 @@ protected slots:
 
 
 private:
+    int m_marginLeft;
+    int m_marginRight;
+    int m_marginTop;
+    int m_marginBottom;
+
     int m_textBackgroundWidth;
-    int m_textLineWidth;
+    int m_textLineMaxWidth;
     int m_textLineHeight;
-    int m_spaceWid;
     QString m_msg;
     QString m_sendTime;
 
     MSG_TYPE m_msgType;
 
     /* him message Box
-     *   ______________________
-     *  /                      |
-     * <         text          |
-     *  \______________________|
+     * ________   ______________________
+     * |      |  / __________________   |
+     * | head | < |_______text_______|  |
+     * |______|  \______________________|
      */
     QPixmap *m_himHeadPix;
-    QRect m_himheadRect;
+    QRect m_himHeadRect;
     QRect m_himMsgBoxRect;
     QRect m_himMsgBoxTriangleRect;
     QRect m_himMsgBoxTextRect;
 
     /* him message Box
-     *   ______________________
-     *  |                      \
-     *  |        text           >
-     *  |______________________/
+     *   ______________________   ________
+     *  | ___________________  \  |      |
+     *  | |_______text_______|  > | head |
+     *  |______________________/  |______|
      */
     QPixmap *m_myHeadPix;
     QRect m_myHeadRect;
@@ -77,4 +82,4 @@ private:
     QRect m_myMsgBoxTextRect;
 };
 
-#endif // CHATMESSAGE_H
+#endif // CHATMESSAGEBOX_H

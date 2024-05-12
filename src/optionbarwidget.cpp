@@ -1,4 +1,4 @@
-#include "optionbarwidget.h"
+#include "include/optionbarwidget.h"
 
 #include <QButtonGroup>
 #include <QEvent>
@@ -19,31 +19,31 @@ OptionBarWidget::OptionBarWidget(QWidget *parent)
     connect(m_chatOption, &roundedBtn::toggled, this, [=](bool checked){
         if(m_chatOption->isChecked())
         {
-            m_chatOption->setIcon(QIcon(":/icon/chatChecked.png"));
+            m_chatOption->setIcon(QIcon(":/img/icon/chatChecked.png"));
         }
         else
         {
-            m_chatOption->setIcon(QIcon(":/icon/chat.png"));
+            m_chatOption->setIcon(QIcon(":/img/icon/chat.png"));
         }
     });
     connect(m_contacts, &roundedBtn::toggled, this, [=](){
         if(m_contacts->isChecked())
         {
-            m_contacts->setIcon(QIcon(":/icon/userChecked.png"));
+            m_contacts->setIcon(QIcon(":/img/icon/userChecked.png"));
         }
         else
         {
-            m_contacts->setIcon(QIcon(":/icon/user.png"));
+            m_contacts->setIcon(QIcon(":/img/icon/user.png"));
         }
     });
     connect(m_collection, &roundedBtn::toggled, this, [=](bool checked){
         if(m_collection->isChecked())
         {
-            m_collection->setIcon(QIcon(":/icon/collectionChecked.png"));
+            m_collection->setIcon(QIcon(":/img/icon/collectionChecked.png"));
         }
         else
         {
-            m_collection->setIcon(QIcon(":/icon/collection.png"));
+            m_collection->setIcon(QIcon(":/img/icon/collection.png"));
         }
     });
 }
@@ -81,7 +81,7 @@ void OptionBarWidget::init()
     m_userHead->setFixedSize(35, 35);
     m_userHead->setAlignment(Qt::AlignHCenter);
     m_userHead->setScaledContents(true);
-    m_userHead->setPixmap(QPixmap(":/head.png"));
+    m_userHead->setPixmap(QPixmap(":/img/userHead/head.png"));
 
     m_chatOption = new roundedBtn("", m_topBar);
     m_chatOption->installEventFilter(this);
@@ -91,7 +91,7 @@ void OptionBarWidget::init()
     m_chatOption->setMouseNormalColor(Qt::transparent);
     m_chatOption->setMouseHovedColor(Qt::transparent);
     m_chatOption->setMousePressedColor(Qt::transparent);
-    m_chatOption->setIcon(QIcon(":/icon/chatChecked.png"));
+    m_chatOption->setIcon(QIcon(":/img/icon/chatChecked.png"));
     m_chatOption->setIconSize(QSize(23, 23));
 
     m_contacts = new roundedBtn("", m_topBar);
@@ -101,7 +101,7 @@ void OptionBarWidget::init()
     m_contacts->setMouseNormalColor(Qt::transparent);
     m_contacts->setMouseHovedColor(Qt::transparent);
     m_contacts->setMousePressedColor(Qt::transparent);
-    m_contacts->setIcon(QIcon(":/icon/user.png"));
+    m_contacts->setIcon(QIcon(":/img/icon/user.png"));
     m_contacts->setIconSize(QSize(23, 23));
 
     m_collection = new roundedBtn("", m_topBar);
@@ -111,7 +111,7 @@ void OptionBarWidget::init()
     m_collection->setMouseNormalColor(Qt::transparent);
     m_collection->setMouseHovedColor(Qt::transparent);
     m_collection->setMousePressedColor(Qt::transparent);
-    m_collection->setIcon(QIcon(":/icon/collection.png"));
+    m_collection->setIcon(QIcon(":/img/icon/collection.png"));
     m_collection->setIconSize(QSize(23, 23));
 
     m_chatFiles = new roundedBtn("", m_topBar);
@@ -120,7 +120,7 @@ void OptionBarWidget::init()
     m_chatFiles->setMouseNormalColor(Qt::transparent);
     m_chatFiles->setMouseHovedColor(Qt::transparent);
     m_chatFiles->setMousePressedColor(Qt::transparent);
-    m_chatFiles->setIcon(QIcon(":/icon/file.png"));
+    m_chatFiles->setIcon(QIcon(":/img/icon/file.png"));
     m_chatFiles->setIconSize(QSize(23, 23));
 
     m_miniProgramPanel = new roundedBtn("", m_bottomBar);
@@ -129,7 +129,7 @@ void OptionBarWidget::init()
     m_miniProgramPanel->setMouseNormalColor(Qt::transparent);
     m_miniProgramPanel->setMouseHovedColor(Qt::transparent);
     m_miniProgramPanel->setMousePressedColor(Qt::transparent);
-    m_miniProgramPanel->setIcon(QIcon(":/icon/smallLink.png"));
+    m_miniProgramPanel->setIcon(QIcon(":/img/icon/smallLink.png"));
     m_miniProgramPanel->setIconSize(QSize(23, 23));
 
     m_yourPhone = new roundedBtn("", m_bottomBar);
@@ -138,7 +138,7 @@ void OptionBarWidget::init()
     m_yourPhone->setMouseNormalColor(Qt::transparent);
     m_yourPhone->setMouseHovedColor(Qt::transparent);
     m_yourPhone->setMousePressedColor(Qt::transparent);
-    m_yourPhone->setIcon(QIcon(":/icon/phone.png"));
+    m_yourPhone->setIcon(QIcon(":/img/icon/phone.png"));
     m_yourPhone->setIconSize(QSize(23, 23));
 
     m_setAndOther = new roundedBtn("", m_bottomBar);
@@ -147,7 +147,7 @@ void OptionBarWidget::init()
     m_setAndOther->setMouseNormalColor(Qt::transparent);
     m_setAndOther->setMouseHovedColor(Qt::transparent);
     m_setAndOther->setMousePressedColor(Qt::transparent);
-    m_setAndOther->setIcon(QIcon(":/icon/more.png"));
+    m_setAndOther->setIcon(QIcon(":/img/icon/more.png"));
     m_setAndOther->setIconSize(QSize(23, 23));
 
     topLayout->addWidget(m_userHead);
@@ -191,11 +191,11 @@ bool OptionBarWidget::eventFilter(QObject *watched, QEvent *event)
         if(event->type() == QEvent::HoverEnter && !m_chatOption->isChecked())
         {
             this->setCursor(Qt::PointingHandCursor);
-            m_chatOption->setIcon(QIcon(":/icon/chatEnter.png"));
+            m_chatOption->setIcon(QIcon(":/img/icon/chatEnter.png"));
         }
         else if(event->type() == QEvent::HoverLeave && !m_chatOption->isChecked())
         {
-            m_chatOption->setIcon(QIcon(":/icon/chat.png"));
+            m_chatOption->setIcon(QIcon(":/img/icon/chat.png"));
             this->setCursor(Qt::ArrowCursor);
         }
     }
@@ -204,11 +204,11 @@ bool OptionBarWidget::eventFilter(QObject *watched, QEvent *event)
         if(event->type() == QEvent::HoverEnter && !m_contacts->isChecked())
         {
             this->setCursor(Qt::PointingHandCursor);
-            m_contacts->setIcon(QIcon(":/icon/userEnter.png"));
+            m_contacts->setIcon(QIcon(":/img/icon/userEnter.png"));
         }
         else if(event->type() == QEvent::HoverLeave && !m_contacts->isChecked())
         {
-            m_contacts->setIcon(QIcon(":/icon/user.png"));
+            m_contacts->setIcon(QIcon(":/img/icon/user.png"));
             this->setCursor(Qt::ArrowCursor);
         }
     }
@@ -217,11 +217,11 @@ bool OptionBarWidget::eventFilter(QObject *watched, QEvent *event)
         if(event->type() == QEvent::HoverEnter && !m_collection->isChecked())
         {
             this->setCursor(Qt::PointingHandCursor);
-            m_collection->setIcon(QIcon(":/icon/collectionEnter.png"));
+            m_collection->setIcon(QIcon(":/img/icon/collectionEnter.png"));
         }
         else if(event->type() == QEvent::HoverLeave && !m_collection->isChecked())
         {
-            m_collection->setIcon(QIcon(":/icon/collection.png"));
+            m_collection->setIcon(QIcon(":/img/icon/collection.png"));
             this->setCursor(Qt::ArrowCursor);
         }
     }
@@ -230,11 +230,11 @@ bool OptionBarWidget::eventFilter(QObject *watched, QEvent *event)
         if(event->type() == QEvent::HoverEnter)
         {
             this->setCursor(Qt::PointingHandCursor);
-            m_chatFiles->setIcon(QIcon(":/icon/fileEnter.png"));
+            m_chatFiles->setIcon(QIcon(":/img/icon/fileEnter.png"));
         }
         else if(event->type() == QEvent::HoverLeave)
         {
-            m_chatFiles->setIcon(QIcon(":/icon/file.png"));
+            m_chatFiles->setIcon(QIcon(":/img/icon/file.png"));
             this->setCursor(Qt::ArrowCursor);
         }
     }
@@ -243,11 +243,11 @@ bool OptionBarWidget::eventFilter(QObject *watched, QEvent *event)
         if(event->type() == QEvent::HoverEnter)
         {
             this->setCursor(Qt::PointingHandCursor);
-            m_miniProgramPanel->setIcon(QIcon(":/icon/smallLinkEnter.png"));
+            m_miniProgramPanel->setIcon(QIcon(":/img/icon/smallLinkEnter.png"));
         }
         else if(event->type() == QEvent::HoverLeave)
         {
-            m_miniProgramPanel->setIcon(QIcon(":/icon/smallLink.png"));
+            m_miniProgramPanel->setIcon(QIcon(":/img/icon/smallLink.png"));
             this->setCursor(Qt::ArrowCursor);
         }
     }
@@ -256,11 +256,11 @@ bool OptionBarWidget::eventFilter(QObject *watched, QEvent *event)
         if(event->type() == QEvent::HoverEnter)
         {
             this->setCursor(Qt::PointingHandCursor);
-            m_yourPhone->setIcon(QIcon(":/icon/phoneEnter.png"));
+            m_yourPhone->setIcon(QIcon(":/img/icon/phoneEnter.png"));
         }
         else if(event->type() == QEvent::HoverLeave)
         {
-            m_yourPhone->setIcon(QIcon(":/icon/phone.png"));
+            m_yourPhone->setIcon(QIcon(":/img/icon/phone.png"));
             this->setCursor(Qt::ArrowCursor);
         }
     }
@@ -269,11 +269,11 @@ bool OptionBarWidget::eventFilter(QObject *watched, QEvent *event)
         if(event->type() == QEvent::HoverEnter)
         {
             this->setCursor(Qt::PointingHandCursor);
-            m_setAndOther->setIcon(QIcon(":/icon/moreEnter.png"));
+            m_setAndOther->setIcon(QIcon(":/img/icon/moreEnter.png"));
         }
         else if(event->type() == QEvent::HoverLeave)
         {
-            m_setAndOther->setIcon(QIcon(":/icon/more.png"));
+            m_setAndOther->setIcon(QIcon(":/img/icon/more.png"));
             this->setCursor(Qt::ArrowCursor);
         }
     }

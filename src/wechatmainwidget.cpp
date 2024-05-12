@@ -1,13 +1,12 @@
 #include <QGraphicsDropShadowEffect>
-#include <QDebug>
 #include <QLayout>
 #include <QGuiApplication>
 #include <QScreen>
 #include <QMouseEvent>
-#include "friendlistwidget.h"
-#include "roundedbtn.h"
-#include "wechatmainwidget.h"
-#include "backgroundwidget.h"
+#include "include/friendlistwidget.h"
+#include "include/roundedbtn.h"
+#include "include/wechatmainwidget.h"
+#include "include/backgroundwidget.h"
 
 #define WIDGET_MARGIN 4
 
@@ -19,8 +18,9 @@ wechatmainwidget::wechatmainwidget(QWidget *parent)
     this->setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_Hover);
 
-    this->setGeometry(400, 100, 700 + WIDGET_MARGIN * 2, 500 + WIDGET_MARGIN * 2);
     this->setMinimumSize(700 + WIDGET_MARGIN * 2, 500 + WIDGET_MARGIN * 2);
+    this->move(400, 100);
+    this->resize(700 + WIDGET_MARGIN * 2, 500 + WIDGET_MARGIN * 2);
 
     init();
     m_OptionBarWidget->show();
@@ -116,6 +116,7 @@ void wechatmainwidget::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
     m_background_widget->onFullScreen(this->isFullScreen(), event->size().width(), event->size().height());
+    m_chatWidget->setFixedWidth(this->width() - m_OptionBarWidget->width() - m_friendListWidget->width());
 }
 
 void wechatmainwidget::init()
@@ -139,16 +140,16 @@ void wechatmainwidget::init()
     m_background_widget->setGeometry(WIDGET_MARGIN, WIDGET_MARGIN, this->width() - WIDGET_MARGIN * 2, this->height() - WIDGET_MARGIN * 2);
 
     // 设置整体布局
-    QHBoxLayout *layout_background = new QHBoxLayout(m_background_widget);
-    QVBoxLayout *layout_optionBar = new QVBoxLayout(m_background_widget);
-    QVBoxLayout *layout_friendList = new QVBoxLayout(m_background_widget);
-    QVBoxLayout *layout_chat = new QVBoxLayout(m_background_widget);
+    QHBoxLayout *layout_background = new QHBoxLayout();
+    QVBoxLayout *layout_optionBar = new QVBoxLayout();
+    QVBoxLayout *layout_friendList = new QVBoxLayout();
+    QVBoxLayout *layout_chat = new QVBoxLayout();
 
 //    // 设置布局中控件与布局之间的间距
     layout_background->setContentsMargins(0, 0, 0, 0);
     layout_optionBar->setContentsMargins(0, 0, 0, 0);
     layout_friendList->setContentsMargins(0, 0, 0, 0);
-    layout_chat->setContentsMargins(0, 0, 0, 0);
+    layout_chat->setContentsMargins(0, 0, 10, 0);
 
     // 设置两个相邻布局或者布局与布局外控件之间的间距
     layout_background->setSpacing(0);

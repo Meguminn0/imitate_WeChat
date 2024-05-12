@@ -13,7 +13,7 @@
 #ifndef CHATWIDGET_H
 #define CHATWIDGET_H
 
-#include "chatmessage.h"
+#include "chatmessagebox.h"
 
 #include <QListWidget>
 #include <QPushButton>
@@ -29,7 +29,7 @@ public:
 
 protected:
     void init();
-    void dealMessage(chatMessage *msg, QListWidgetItem *item, QString text, QString time, chatMessage::MSG_TYPE type);
+    void dealMessage(chatMessageBox *msg, QListWidgetItem *item, QString text, QString time, chatMessageBox::MSG_TYPE type);
 
 
 signals:
@@ -42,8 +42,8 @@ private:
     QVBoxLayout *m_textInlayout;
 
     QWidget *m_userInfoWidget;
-    QListWidget *m_listwidget;
     QWidget *m_textInWidget;
+    QListWidget *m_listwidget;
     QTextEdit *m_textEdit;
     QPushButton *m_sendBtn;
 };

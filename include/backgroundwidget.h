@@ -31,7 +31,6 @@ protected:
     void init();
     void setShadow();
 
-    void paintEvent(QPaintEvent *event);
     void showEvent(QShowEvent *event);
 
 signals:

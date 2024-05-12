@@ -1,5 +1,5 @@
-#include "friendListwidget.h"
-#include "friendListitem.h"
+#include "include/friendListwidget.h"
+#include "include/friendListitem.h"
 
 #include <QAction>
 #include <QList>
@@ -25,17 +25,45 @@ void friendListWidget::init()
     m_bottomWidget = new QListWidget(this);
 
     m_topWidget->setFixedSize(this->width(), 60);
-    palette = m_topWidget->palette();
-    palette.setColor(QPalette::Window, QColor(247, 247, 247));
-    m_topWidget->setAutoFillBackground(true);
-    m_topWidget->setPalette(palette);
+    m_topWidget->setStyleSheet(R"(
+        QWidget {
+            background-color: rgb(247, 247, 247);
+            border-bottom: 1px solid rgb(214, 214, 214);
+            border-top: 1px solid rgb(208, 208, 208);
+        }
+    )");
+//    palette = m_topWidget->palette();
+//    palette.setColor(QPalette::Window, QColor(247, 247, 247));
+//    m_topWidget->setAutoFillBackground(true);
+//    m_topWidget->setPalette(palette);
 
     m_bottomWidget->setFixedWidth(this->width());
-    palette = m_bottomWidget->palette();
-    palette.setColor(QPalette::Base, QColor(231, 229, 229));
-    m_bottomWidget->setAutoFillBackground(true);
-    m_bottomWidget->setPalette(palette);
+    m_bottomWidget->setContentsMargins(0, 0, 0, 0);
+
+    m_bottomWidget->setStyleSheet(R"(
+        QListWidget {
+            background-color: rgb(235, 233, 231);
+            border: none;
+            outline: 0;
+        }
+
+        QListWidget::item {
+            background-color: rgba(0, 0, 0, 0);
+            border-color:  rgba(0, 0, 0, 0);
+        }
+
+        QListWidget::item:hover {
+            background-color: rgb(222, 219, 218);
+            border-color:  rgba(0, 0, 0, 0);
+        }
+
+        QListWidget::item:selected {
+            background-color: rgb(196, 196, 196);
+            border-color:  rgba(0, 0, 0, 0);
+        }
+    )");
     m_bottomWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_bottomWidget->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     QHBoxLayout *topLayout = new QHBoxLayout(m_topWidget);
@@ -60,7 +88,7 @@ void friendListWidget::init()
         "}"
     );
     QAction *searchLineEdit_action = new QAction(m_searchLineEdit);
-    searchLineEdit_action->setIcon(QIcon(":/icon/seaerch.png"));
+    searchLineEdit_action->setIcon(QIcon(":/img/icon/seaerch.png"));
 
     m_searchLineEdit->addAction(searchLineEdit_action, QLineEdit::LeadingPosition);
     m_searchLineEdit->setClearButtonEnabled(true);
@@ -73,7 +101,7 @@ void friendListWidget::init()
     m_createGroupChat->setMouseNormalColor(QColor(226, 226, 226));
     m_createGroupChat->setMouseHovedColor(QColor(209, 209, 209));
     m_createGroupChat->setMousePressedColor(QColor(209, 209, 209));
-    m_createGroupChat->setIcon(QIcon(":/icon/plus.png"));
+    m_createGroupChat->setIcon(QIcon(":/img/icon/plus.png"));
     m_createGroupChat->setIconSize(QSize(13, 13));
 
     this->setLayout(layout);
@@ -101,10 +129,4 @@ void friendListWidget::init()
     listwidgetItem2->setSizeHint(item2->size());
     m_bottomWidget->insertItem(1, listwidgetItem2);
     m_bottomWidget->setItemWidget(listwidgetItem2, item2);
-//    listwidgetItem->setSizeHint(QSize(this->width(), 40));
-//    listwidgetItem->setText("listItem1111");
-//    listwidgetItem->setSizeHint(QSize(0, 70));
-//    listwidgetItem->setIcon(QIcon(":/icon/Icon/head/head.png"));
-//    listwidgetItem->setToolTip("this is a list widget item");
-//    m_bottomWidget->insertItem(0, listwidgetItem);
 }

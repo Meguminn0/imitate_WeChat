@@ -1,8 +1,7 @@
-#include "roundedbtn.h"
+#include "include/roundedbtn.h"
 
 #include <QBrush>
 #include <QPainter>
-#include <QDebug>
 #include <QMouseEvent>
 
 roundedBtn::roundedBtn(QWidget *parent) :
