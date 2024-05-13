@@ -29,5 +29,11 @@
         <file>img/icon/userEnter.png</file>
         <file>img/userHead/head.png</file>
         <file>img/userHead/head2.png</file>
+        <file>img/icon/more_three_Point_style.png</file>
+        <file>img/icon/more_three_Point_style_hover.png</file>
+        <file>img/icon/more_three_Point_style_pressed.png</file>
+        <file>img/icon/smiley.png</file>
+        <file>img/icon/smiley_hover.png</file>
+        <file>img/icon/smiley_pressed.png</file>
     </qresource>
 </RCC>

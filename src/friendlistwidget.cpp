@@ -24,7 +24,7 @@ void friendListWidget::init()
     m_topWidget = new QWidget(this);
     m_bottomWidget = new QListWidget(this);
 
-    m_topWidget->setFixedSize(this->width(), 60);
+    m_topWidget->setFixedSize(this->width(), 64);
     m_topWidget->setStyleSheet(R"(
         QWidget {
             background-color: rgb(247, 247, 247);

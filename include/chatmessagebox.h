@@ -32,6 +32,10 @@ public:
 
     QSize setText(const QString &text, const QString &time, const MSG_TYPE& type);
 
+    inline QString getMessageText() { return m_msg; }
+    inline QString getSendTime() { return m_sendTime; }
+    inline MSG_TYPE getMsgType() { return m_msgType; }
+
 protected:
     void paintEvent(QPaintEvent *event) override;
 
