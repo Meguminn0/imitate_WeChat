@@ -120,7 +120,7 @@ void OptionBarWidget::init()
     m_chatFiles->setMouseNormalColor(Qt::transparent);
     m_chatFiles->setMouseHovedColor(Qt::transparent);
     m_chatFiles->setMousePressedColor(Qt::transparent);
-    m_chatFiles->setIcon(QIcon(":/img/icon/file.png"));
+    m_chatFiles->setIcon(QIcon(":/img/icon/file_hover.png"));
     m_chatFiles->setIconSize(QSize(23, 23));
 
     m_miniProgramPanel = new roundedBtn("", m_bottomBar);
@@ -230,11 +230,11 @@ bool OptionBarWidget::eventFilter(QObject *watched, QEvent *event)
         if(event->type() == QEvent::HoverEnter)
         {
             this->setCursor(Qt::PointingHandCursor);
-            m_chatFiles->setIcon(QIcon(":/img/icon/fileEnter.png"));
+            m_chatFiles->setIcon(QIcon(":/img/icon/file.png"));
         }
         else if(event->type() == QEvent::HoverLeave)
         {
-            m_chatFiles->setIcon(QIcon(":/img/icon/file.png"));
+            m_chatFiles->setIcon(QIcon(":/img/icon/file_hover.png"));
             this->setCursor(Qt::ArrowCursor);
         }
     }

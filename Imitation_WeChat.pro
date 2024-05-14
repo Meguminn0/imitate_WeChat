@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/mainwindow.cpp \
     src/backgroundwidget.cpp \
     src/chatmessagebox.cpp \
     src/chatwidget.cpp \
@@ -18,7 +19,8 @@ SOURCES += \
     src/loginwidget.cpp \
     src/optionbarwidget.cpp \
     src/roundedbtn.cpp \
-    src/wechatmainwidget.cpp
+    src/wechatmainwidget.cpp \
+    src/tcpmanager.cpp
 
 HEADERS += \
     include/backgroundwidget.h \
@@ -29,7 +31,9 @@ HEADERS += \
     include/loginwidget.h \
     include/optionbarwidget.h \
     include/roundedbtn.h \
-    include/wechatmainwidget.h
+    include/wechatmainwidget.h \
+    include/tcpmanager.h \
+    include/mainwindow.h
 
 FORMS += \
     ui/loginwidget.ui

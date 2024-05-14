@@ -34,6 +34,10 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
 
+signals:
+    void sig_move(QPoint point);
+    void sig_login(QString id, QString pwd);
+
 private slots:
     void loginCheck();
 

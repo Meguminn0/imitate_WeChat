@@ -9,7 +9,6 @@
         <file>img/icon/collectionEnter.png</file>
         <file>img/icon/exit.png</file>
         <file>img/icon/file.png</file>
-        <file>img/icon/fileEnter.png</file>
         <file>img/icon/fixed.png</file>
         <file>img/icon/fullScreen.png</file>
         <file>img/icon/fullScreen2.png</file>
@@ -35,5 +34,13 @@
         <file>img/icon/smiley.png</file>
         <file>img/icon/smiley_hover.png</file>
         <file>img/icon/smiley_pressed.png</file>
+        <file>img/icon/file_pressed.png</file>
+        <file>img/icon/screenShot.png</file>
+        <file>img/icon/screenShot_hover.png</file>
+        <file>img/icon/screenShot_pressed.png</file>
+        <file>img/icon/file_hover.png</file>
+        <file>img/icon/oneChat.png</file>
+        <file>img/icon/oneChat_hover.png</file>
+        <file>img/icon/oneChat_pressed.png</file>
     </qresource>
 </RCC>

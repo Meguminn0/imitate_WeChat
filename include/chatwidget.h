@@ -46,21 +46,25 @@ protected slots:
 private:
     int m_userId;
 
-    QVBoxLayout *m_layout;
-    QVBoxLayout *m_textInlayout;
-    QHBoxLayout *m_chatToolBarLayout;
-    QHBoxLayout *m_sendBtnLayout;
-    QHBoxLayout *m_userInfoLayout;
+    QVBoxLayout *m_layout;              /* 聊天界面总布局 */
+    QVBoxLayout *m_textInlayout;        /* 文本输入界面布局 */
+    QHBoxLayout *m_chatToolBarLayout;   /* 聊天工具栏布局 */
+    QHBoxLayout *m_sendBtnLayout;       /* 发送按钮布局 */
+    QHBoxLayout *m_userInfoLayout;      /* 用户信息布局 */
 
-    QWidget *m_userInfoWidget;
-    QWidget *m_textInWidget;
-    QListWidget *m_listwidget;
+    QWidget *m_userInfoWidget;          /* 用户信息界面 */
+    QListWidget *m_listwidget;          /* 聊天信息列表 */
+    QWidget *m_textInWidget;            /* 文本输入界面 */
 
-    QLabel *m_userNameLabel;
+    QLabel *m_userNameLabel;            /* 用户名标签 */
 
-    QTextEdit *m_textEdit;
-    QPushButton *m_sendBtn;
-    QPushButton *m_chatInfoBtn;
+    QTextEdit *m_textEdit;              /* 文本输入框 */
+    QPushButton *m_emoticonsBtn;        /* 聊天表情按钮 */
+    QPushButton *m_SendFileBtn;         /* 发送文件按钮 */
+    QPushButton *m_screenShotBtn;       /* 截图按钮 */
+    QPushButton *m_chatHistoryBtn;      /* 聊天记录按钮 */
+    QPushButton *m_sendBtn;             /* 发送按钮 */
+    QPushButton *m_chatInfoBtn;         /* 聊天信息按钮 */
 };
 
 #endif // CHATWIDGET_H

@@ -139,13 +139,14 @@ void chatWidget::init()
     m_layout->addWidget(m_listwidget);
 
     m_textInWidget = new QWidget(this);
+    m_textInWidget->setFixedHeight(220);
     m_textInWidget->setStyleSheet(R"(
         QWidget {
             border: 1px solid rgb(214, 214, 214);
             border-top: none;
         }
     )");
-    m_layout->addWidget(m_textInWidget);
+    m_layout->addWidget(m_textInWidget, 1);
 
     m_textInlayout = new QVBoxLayout();
     m_textInlayout->setContentsMargins(20, 0, 20, 10);
@@ -153,11 +154,91 @@ void chatWidget::init()
     m_textInWidget->setLayout(m_textInlayout);
 
     m_chatToolBarLayout = new QHBoxLayout();
-    m_chatToolBarLayout->setContentsMargins(0, 10, 0, 10);
-    m_chatToolBarLayout->setSpacing(5);
+    m_chatToolBarLayout->setContentsMargins(0, 10, 0, 0);
+    m_chatToolBarLayout->setSpacing(10);
     m_textInlayout->addLayout(m_chatToolBarLayout);
 
+    m_emoticonsBtn = new QPushButton(m_textInWidget);
+    m_emoticonsBtn->setFixedSize(25, 25);
+    m_emoticonsBtn->setIconSize(m_emoticonsBtn->size());
+    m_emoticonsBtn->setStyleSheet(R"(
+        QPushButton {
+            background-color: rgba(0, 0, 0, 0);
+            border: none;
+            icon: url(:/img/icon/smiley.png);
+        }
+
+        QPushButton:hover {
+            icon: url(:/img/icon/smiley_hover.png);
+        }
+
+        QPushButton:pressed {
+            icon: url(:/img/icon/smiley_pressed.png);
+        }
+    )");
+    m_SendFileBtn = new QPushButton(m_textInWidget);
+    m_SendFileBtn->setFixedSize(25, 25);
+    m_SendFileBtn->setIconSize(m_emoticonsBtn->size());
+    m_SendFileBtn->setStyleSheet(R"(
+        QPushButton {
+            background-color: rgba(0, 0, 0, 0);
+            border: none;
+            icon: url(:/img/icon/file.png);
+        }
+
+        QPushButton:hover {
+            icon: url(:/img/icon/file_hover.png);
+        }
+
+        QPushButton:pressed {
+            icon: url(:/img/icon/file_pressed.png);
+        }
+    )");
+    m_screenShotBtn = new QPushButton(m_textInWidget);
+    m_screenShotBtn->setFixedSize(25, 25);
+    m_screenShotBtn->setIconSize(m_emoticonsBtn->size());
+    m_screenShotBtn->setStyleSheet(R"(
+        QPushButton {
+            background-color: rgba(0, 0, 0, 0);
+            border: none;
+            icon: url(:/img/icon/screenShot.png);
+        }
+
+        QPushButton:hover {
+            icon: url(:/img/icon/screenShot_hover.png);
+        }
+
+        QPushButton:pressed {
+            icon: url(:/img/icon/screenShot_pressed.png);
+        }
+    )");
+    m_chatHistoryBtn = new QPushButton(m_textInWidget);
+    m_chatHistoryBtn->setFixedSize(25, 25);
+    m_chatHistoryBtn->setIconSize(m_emoticonsBtn->size());
+    m_chatHistoryBtn->setStyleSheet(R"(
+        QPushButton {
+            background-color: rgba(0, 0, 0, 0);
+            border: none;
+            icon: url(:/img/icon/oneChat.png);
+        }
+
+        QPushButton:hover {
+            icon: url(:/img/icon/oneChat_hover.png);
+        }
+
+        QPushButton:pressed {
+            icon: url(:/img/icon/oneChat_pressed.png);
+        }
+    )");
+
+    m_chatToolBarLayout->addWidget(m_emoticonsBtn);
+    m_chatToolBarLayout->addWidget(m_SendFileBtn);
+    m_chatToolBarLayout->addWidget(m_screenShotBtn);
+    m_chatToolBarLayout->addWidget(m_chatHistoryBtn);
+    m_chatToolBarLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
+
     m_textEdit = new QTextEdit(m_textInWidget);
+    m_textEdit->setFont(QFont("微软雅黑", 13));
     m_textEdit->setStyleSheet(R"(
         QTextEdit {
             background-color: rgba(0, 0, 0, 0);

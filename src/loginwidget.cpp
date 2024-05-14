@@ -12,9 +12,6 @@ LoginWidget::LoginWidget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setWindowFlags(Qt::FramelessWindowHint);
-    setAttribute(Qt::WA_TranslucentBackground);
-
     init();
 
     m_mainwidget = nullptr;
@@ -157,6 +154,7 @@ void LoginWidget::mouseMoveEvent(QMouseEvent *event)
     {
         QPoint mouseMoveDis = event->globalPosition().toPoint() - m_mouseStartPoint;
         move(m_currentPoint + mouseMoveDis);
+        emit sig_move(this->frameGeometry().topLeft());
     }
 
     QWidget::mouseMoveEvent(event);

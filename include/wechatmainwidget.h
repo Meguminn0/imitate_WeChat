@@ -45,6 +45,8 @@ public:
 
     explicit wechatmainwidget(QWidget *parent = nullptr);
 
+    void setUserId(const QString& id);
+
 protected:
     bool event(QEvent *event) override;
     void enterEvent(QEnterEvent *event);
@@ -65,6 +67,8 @@ private slots:
     void showFullScreenOrNormal();
 
 private:
+    QString m_userId;
+
     bool m_isPressed;
     QPoint m_mousePressedPoint;
     QPoint m_mouseMovePoint;

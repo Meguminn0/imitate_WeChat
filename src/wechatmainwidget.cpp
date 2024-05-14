@@ -16,7 +16,7 @@ wechatmainwidget::wechatmainwidget(QWidget *parent)
     this->setWindowFlag(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_StyledBackground);
     this->setAttribute(Qt::WA_TranslucentBackground);
-    setAttribute(Qt::WA_Hover);
+//    setAttribute(Qt::WA_Hover);
 
     this->setMinimumSize(700 + WIDGET_MARGIN * 2, 500 + WIDGET_MARGIN * 2);
     this->move(400, 100);
@@ -30,6 +30,11 @@ wechatmainwidget::wechatmainwidget(QWidget *parent)
     connect(m_background_widget, &backGroundWidget::signClose, this, &wechatmainwidget::close);
     connect(m_background_widget, &backGroundWidget::signFullScreen, this, &wechatmainwidget::showFullScreenOrNormal);
     connect(m_background_widget, &backGroundWidget::signMin, this, &wechatmainwidget::showMinimized);
+}
+
+void wechatmainwidget::setUserId(const QString &id)
+{
+    this->m_userId = id;
 }
 
 bool wechatmainwidget::event(QEvent *event)
@@ -115,7 +120,15 @@ void wechatmainwidget::mouseReleaseEvent(QMouseEvent *event)
 void wechatmainwidget::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
-    m_background_widget->onFullScreen(this->isFullScreen(), event->size().width(), event->size().height());
+    if(this->isFullScreen())
+    {
+        m_background_widget->onFullScreen(this->isFullScreen(), event->size().width(), event->size().height());
+    }
+    else
+    {
+        m_background_widget->resize(this->width() - WIDGET_MARGIN * 2, this->height() - WIDGET_MARGIN * 2);
+    }
+
     m_chatWidget->setFixedWidth(this->width() - m_OptionBarWidget->width() - m_friendListWidget->width());
 }
 
