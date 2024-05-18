@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStackedWidget>
 
 #include "include/loginwidget.h"
 #include "include/wechatmainwidget.h"
@@ -10,18 +11,69 @@ class mainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
+    /*                      topEdge
+     *  topLeftCorner 1        2        3  topRightCorner
+     *             1 ___|_____________|___
+     *                  |             |
+     *                  |             |
+     *                  |             |
+     *   leftEdge  2    |     none    |  rightEdge
+     *                  |             |
+     *                  |             |
+     *               ___|_____________|___
+     *             3    |             |
+     * bottomLeftCorner   bottomEdge    bottomRightCorner
+     *               --------------------
+     */
+    enum CURSOR_EDGE
+    {
+        none = 22,
+        topEdge = 12,
+        bottomEdge = 32,
+        leftEdge = 21,
+        rightEdge = 23,
+        topLeftCorner = 11,
+        topRightCorner = 13,
+        bottomLeftCorner = 31,
+        bottomRightCorner = 33
+    };
+
+public:
     explicit mainWindow(QWidget *parent = nullptr);
 
+protected:
+    void init();
+    bool event(QEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+
+    int countFlag(QPoint p,int row);
+    int countRow(QPoint p);
+    void setCursorType(int flag);
+
 private:
-    bool verifyUserInfor(const QString& id, const QString& pwd);
+    bool verifyUserInfor(const QString &id, const QString &pwd);
+    void checkMousePosition(const QPoint &mousePoint);
+    void resizeWidget(QPoint &movedPoint);
 
 signals:
+    void sig_finishedFullScreen(bool isFullScreen);
 
 protected slots:
-    void slot_move(QPoint point);
     void slot_userLogin(QString id, QString pwd);
+    void slot_fullScreen();
+    void slot_turnOnResize();
+    void slot_turnOffResize();
 
 private:
+    bool m_forbidResize;
+
+    bool m_mousePressed;        // 鼠标是否按下
+    QPoint m_pressedPoint;      // 鼠标按下时的位置
+    QRect m_pressedRect;        // 鼠标按下时的矩形框
+    CURSOR_EDGE m_cursorEdge;
+
     LoginWidget *m_loginWidget;
     wechatmainwidget *m_wechatWidget;
 };

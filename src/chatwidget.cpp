@@ -91,31 +91,20 @@ void chatWidget::init()
     listWidgetVerticalBar->setStyleSheet(R"(
         QScrollBar {
             background: rgb(245, 245, 245); /* 背景透明 */
-            width: 15px; /* 滚动条宽度 */
-            margin: 0px 8px 0px 0px; /* 外边距 */
+            width: 15px;                    /* 滚动条宽度 */
+            margin: 2px 3px 2px 5px;        /* 外边距: 上, 右, 下, 左 */
         }
 
         QScrollBar::handle {
             /* 滑块部分 */
             background-color:rgb(215, 215, 215);
             min-height: 20px;
-            width: 5px;
-            border-radius: 3px;
+            border-radius: 2px;
         }
 
         QScrollBar::handle:hover {
             /* 滑块部分 */
             background-color:rgb(186, 186, 186);
-            min-height: 20px;
-            width: 5px;
-            border-radius: 3px;
-        }
-
-        QScrollBar::up-arrow, QScrollBar::down-arrow {
-            /* 上下箭头部分 */
-            border-color: rgba(0, 0, 0, 0);
-            height: 0px; /* 隐藏箭头 */
-            width: 0px;
         }
 
         QScrollBar::add-page, QScrollBar::sub-page {
@@ -123,14 +112,19 @@ void chatWidget::init()
             background-color: rgba(245, 245, 245); /* 或者设定颜色 */
         }
 
-        QScrollBar::add-line:vertical {
-              border: none;
-              background: none;
+        QScrollBar::up-arrow, QScrollBar::down-arrow {
+            /* 上下箭头部分 */
+            border: none;
+            background-color: transparent;
+            height: 0px;                    /* 隐藏箭头 */
+            width: 0px;
         }
 
-        QScrollBar::sub-line:vertical {
-              border: none;
-              background: none;
+        QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+            border: none;
+            background: none;
+            height: 0px;                    /* 隐藏箭头 */
+            width: 0px;
         }
     )");
     m_listwidget->setVerticalScrollBar(listWidgetVerticalBar);

@@ -14,9 +14,9 @@ backGroundWidget::backGroundWidget(QWidget *parent)
 
     init();
 
-    connect(m_btn_close, &QPushButton::clicked, this, &backGroundWidget::signClose);
-    connect(m_btn_fullScreen, &QPushButton::clicked, this, &backGroundWidget::signFullScreen);
-    connect(m_btn_min, &QPushButton::clicked, this, &backGroundWidget::signMin);
+    connect(m_btn_close, &QPushButton::clicked, this, &backGroundWidget::sig_close);
+    connect(m_btn_fullScreen, &QPushButton::clicked, this, &backGroundWidget::sig_fullScreen);
+    connect(m_btn_min, &QPushButton::clicked, this, &backGroundWidget::sig_min);
 }
 
 void backGroundWidget::moveTopRightButtom()
@@ -73,7 +73,6 @@ void backGroundWidget::init()
     m_btn_fixed->setMouseNormalColor(Qt::transparent);
     m_btn_fixed->setMouseHovedColor(QColor(226, 226, 226));
     m_btn_fixed->setMousePressedColor(QColor(209, 209, 209));
-
 }
 
 void backGroundWidget::setShadow()
@@ -86,24 +85,21 @@ void backGroundWidget::setShadow()
     this->setGraphicsEffect(shadowEffect);
 }
 
-void backGroundWidget::showEvent(QShowEvent *event)
+void backGroundWidget::resizeEvent(QResizeEvent *event)
 {
-    QWidget::showEvent(event);
+    QWidget::resizeEvent(event);
 
     moveTopRightButtom();
 }
 
-void backGroundWidget::onFullScreen(bool isFullScreen, const int width, const int height)
+void backGroundWidget::enterEvent(QEnterEvent *event)
 {
-    if(!isFullScreen)
-    {
-        setGeometry(4, 4, width - 8, height - 8);
-        moveTopRightButtom();
-    }
-    else
-    {
-        setGeometry(-1, -1, width + 1, height + 1);
-        moveTopRightButtom();
-    }
+    QWidget::enterEvent(event);
+    emit sig_enter();
 }
 
+void backGroundWidget::leaveEvent(QEvent *event)
+{
+    QWidget::leaveEvent(event);
+    emit sig_leave();
+}

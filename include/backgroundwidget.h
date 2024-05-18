@@ -31,15 +31,19 @@ protected:
     void init();
     void setShadow();
 
-    void showEvent(QShowEvent *event);
+    void resizeEvent(QResizeEvent *event);
+    void enterEvent(QEnterEvent *event) override;
+    void leaveEvent(QEvent *event) override;
 
 signals:
-    void signClose();
-    void signFullScreen();
-    void signMin();
+    void sig_close();
+    void sig_fullScreen();
+    void sig_min();
+    void sig_mouseLeave();
+    void sig_enter();
+    void sig_leave();
 
 public slots:
-    void onFullScreen(bool isFullScreen, const int widht, const int height);
 
 private:
     roundedBtn *m_btn_close;

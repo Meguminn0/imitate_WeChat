@@ -16,13 +16,20 @@ LoginWidget::LoginWidget(QWidget *parent)
 
     m_mainwidget = nullptr;
 
-    connect(ui->Btn_close, &QPushButton::clicked, this, &this->close);
-    connect(ui->Btn_login, &roundedBtn::clicked, this, &this->loginCheck);
+    connect(ui->Btn_close, &QPushButton::clicked, this, &this->sig_close);
+    connect(ui->Btn_login, &roundedBtn::clicked, this, &this->slot_loginCheck);
 }
 
 LoginWidget::~LoginWidget()
 {
     delete ui;
+}
+
+void LoginWidget::slot_loginCheck()
+{
+    // 获取当前用户的账号和密码
+
+    emit this->sig_login("123", "123");
 }
 
 void LoginWidget::init()
@@ -146,53 +153,4 @@ bool LoginWidget::eventFilter(QObject *watched, QEvent *event)
     }
 
     return QWidget::eventFilter(watched, event);
-}
-
-void LoginWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    if(readyMove)
-    {
-        QPoint mouseMoveDis = event->globalPosition().toPoint() - m_mouseStartPoint;
-        move(m_currentPoint + mouseMoveDis);
-        emit sig_move(this->frameGeometry().topLeft());
-    }
-
-    QWidget::mouseMoveEvent(event);
-}
-
-void LoginWidget::mousePressEvent(QMouseEvent *event)
-{
-    if(event->button() == Qt::LeftButton)
-    {
-        readyMove = true;
-        // record the position of the current mouse pressed in the window
-        m_mouseStartPoint = event->globalPosition().toPoint();
-        // record the position of the widget in the window
-        m_currentPoint = frameGeometry().topLeft();
-        event->accept();
-    }
-    else
-    {
-        QWidget::mousePressEvent(event);
-    }
-}
-
-void LoginWidget::mouseReleaseEvent(QMouseEvent *event)
-{
-    if(readyMove && event->button() == Qt::LeftButton)
-    {
-        readyMove = false;
-    }
-
-    QWidget::mouseReleaseEvent(event);
-}
-
-void LoginWidget::loginCheck()
-{
-    if(checkUserValue())
-    {
-        m_mainwidget = new wechatmainwidget();
-        m_mainwidget->show();
-        this->hide();
-    }
 }

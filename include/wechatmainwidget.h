@@ -26,63 +26,38 @@ class wechatmainwidget : public QWidget
 {
     Q_OBJECT
 public:
-    enum Margin_Edge
-    {
-        none = 0,
-        topEdge = 1,
-        bottomEdge = 2,
-        leftEdge = 4,
-        rightEdge = 8,
-        topLeftCorner = 16,
-        topRightCorner = 32,
-        bottomLeftCorner = 64,
-        bottomRightCorner = 128
-    };
-
-public:
-    const int EDGE_MIN_WIDTH = 2; // 窗口的边缘最小宽度
-    const int EDGE_MAX_WIDTH = 8; // 窗口的边缘最大宽度
-
     explicit wechatmainwidget(QWidget *parent = nullptr);
 
     void setUserId(const QString& id);
+    void setContentsMargins(int left, int top, int right, int bottom);
 
 protected:
-    bool event(QEvent *event) override;
-    void enterEvent(QEnterEvent *event);
-    void leaveEvent(QEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void resizeEvent(QResizeEvent *event);
 
 private:
     void init();
-    void updateEdgeCheck(QMouseEvent *event);
-    void resizeWdige();
 
 signals:
+    void sig_close();
+    void sig_fullSreen();
+    void sig_min();
+    void sig_backEnter();
+    void sig_backLeave();
 
 private slots:
-    void showFullScreenOrNormal();
 
 private:
     QString m_userId;
 
-    bool m_isPressed;
-    QPoint m_mousePressedPoint;
-    QPoint m_mouseMovePoint;
-
-    bool m_readyResize;
-    wechatmainwidget::Margin_Edge m_resizeEdge;
-    QSize m_pressedSize;
-    QPoint m_widgePressedPos;
+    QBoxLayout *m_layout;
+    QHBoxLayout *m_layout_background;
+    QVBoxLayout *m_layout_optionBar;
+    QVBoxLayout *m_layout_friendList;
+    QVBoxLayout *m_layout_chat;
 
     backGroundWidget *m_background_widget;
     OptionBarWidget *m_OptionBarWidget;
     friendListWidget *m_friendListWidget;
     chatWidget *m_chatWidget;
-
 };
 
 #endif // WECHATMAINWIDGET_H
