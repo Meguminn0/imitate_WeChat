@@ -29,6 +29,7 @@ class friendlistItem : public QWidget
 public:
     explicit friendlistItem(QWidget *parent = nullptr);
     void setFriendId(const QString& id);
+    QString getFriendId();
 
 protected:
     void init();

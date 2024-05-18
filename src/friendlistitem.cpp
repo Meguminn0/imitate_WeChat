@@ -17,6 +17,11 @@ void friendlistItem::setFriendId(const QString& id)
     this->m_friendId = id;
 }
 
+QString friendlistItem::getFriendId()
+{
+    return m_friendId;
+}
+
 void friendlistItem::init()
 {
     QPalette palette;

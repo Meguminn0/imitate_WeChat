@@ -44,7 +44,6 @@ void chatMessageBox::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);//消锯齿
     painter.setPen(Qt::NoPen);
-//    painter.setBrush(QBrush(Qt::gray));
 
     // 头像
     painter.drawPixmap(m_myHeadRect, *m_myHeadPix);

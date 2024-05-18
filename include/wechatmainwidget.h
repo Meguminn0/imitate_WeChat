@@ -28,8 +28,9 @@ class wechatmainwidget : public QWidget
 public:
     explicit wechatmainwidget(QWidget *parent = nullptr);
 
-    void setUserId(const QString& id);
+    void setMyselfId(const QString& id);
     void setContentsMargins(int left, int top, int right, int bottom);
+    QString getSendData();
 
 protected:
 
@@ -42,11 +43,12 @@ signals:
     void sig_min();
     void sig_backEnter();
     void sig_backLeave();
+    void sig_sendChatData(QString targetUserId);
 
 private slots:
 
 private:
-    QString m_userId;
+    QString m_myselfId;
 
     QBoxLayout *m_layout;
     QHBoxLayout *m_layout_background;

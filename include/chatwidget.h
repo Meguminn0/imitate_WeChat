@@ -27,6 +27,9 @@ class chatWidget : public QWidget
     Q_OBJECT
 public:
     explicit chatWidget(QWidget *parent = nullptr);
+    void setCurrentChatingUserId(const QString &id);
+    void clearTextEdit();
+    QString getTextEditData();
 
 protected:
     void init();
@@ -38,13 +41,13 @@ protected:
     QString getUserName();
 
 signals:
-    void sig_lastMessage(int userId, QString lastMsg);
+    void sig_sendChatData(QString targetUserId);
 
 protected slots:
-    void sendMessage();
+    void slot_sendMessage();
 
 private:
-    int m_userId;
+    QString m_currentChatingUserId;
 
     QVBoxLayout *m_layout;              /* 聊天界面总布局 */
     QVBoxLayout *m_textInlayout;        /* 文本输入界面布局 */

@@ -10,17 +10,11 @@ friendListWidget::friendListWidget(QWidget *parent)
 {
     this->setFixedWidth(WIDGETWIDTH);
 
-//    QPalette palette = this->palette();
-//    palette.setColor(QPalette::Window, QColor(217, 216, 217));
-//    this->setAutoFillBackground(true);
-//    this->setPalette(palette);
-
     init();
 }
 
 void friendListWidget::init()
 {
-    QPalette palette;
     m_topWidget = new QWidget(this);
     m_bottomWidget = new QListWidget(this);
 
@@ -32,10 +26,6 @@ void friendListWidget::init()
             border-top: 1px solid rgb(208, 208, 208);
         }
     )");
-//    palette = m_topWidget->palette();
-//    palette.setColor(QPalette::Window, QColor(247, 247, 247));
-//    m_topWidget->setAutoFillBackground(true);
-//    m_topWidget->setPalette(palette);
 
     m_bottomWidget->setFixedWidth(this->width());
     m_bottomWidget->setContentsMargins(0, 0, 0, 0);
@@ -108,12 +98,10 @@ void friendListWidget::init()
     layout->addWidget(m_topWidget);
     layout->addWidget(m_bottomWidget);
     m_topWidget->setLayout(topLayout);
-//    m_bottomWidget->setLayout(bottomLayout);
 
     topLayout->addWidget(m_searchLineEdit);
     topLayout->addWidget(m_createGroupChat);
 
-//    m_friendList = new QList<friendlistItem*>();
     friendlistItem *item1 = new friendlistItem(m_bottomWidget);
     friendlistItem *item2 = new friendlistItem(m_bottomWidget);
     item1->setFriendId("0");

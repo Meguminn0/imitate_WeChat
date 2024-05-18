@@ -29,6 +29,8 @@ public:
 
     explicit friendListWidget(QWidget *parent = nullptr);
 
+    void addfriendItem();
+
 protected:
     void init();
 
@@ -41,8 +43,6 @@ private:
 
     QLineEdit *m_searchLineEdit;
     roundedBtn *m_createGroupChat;
-
-    QList<friendlistItem*> *m_friendList;
 };
 
 #endif // FRIENDLISTWIDGET_H

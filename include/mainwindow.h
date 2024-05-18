@@ -6,6 +6,7 @@
 
 #include "include/loginwidget.h"
 #include "include/wechatmainwidget.h"
+#include "include/tcpmanager.h"
 
 class mainWindow : public QMainWindow
 {
@@ -40,6 +41,7 @@ public:
 
 public:
     explicit mainWindow(QWidget *parent = nullptr);
+    ~mainWindow();
 
 protected:
     void init();
@@ -47,10 +49,6 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
-
-    int countFlag(QPoint p,int row);
-    int countRow(QPoint p);
-    void setCursorType(int flag);
 
 private:
     bool verifyUserInfor(const QString &id, const QString &pwd);
@@ -65,6 +63,7 @@ protected slots:
     void slot_fullScreen();
     void slot_turnOnResize();
     void slot_turnOffResize();
+    void slot_sendChatData(QString targetUserId);
 
 private:
     bool m_forbidResize;
@@ -76,6 +75,7 @@ private:
 
     LoginWidget *m_loginWidget;
     wechatmainwidget *m_wechatWidget;
+    tcpManager *m_tcpMger;
 };
 
 #endif // MAINWINDOW_H

@@ -15,6 +15,11 @@ mainWindow::mainWindow(QWidget *parent)
     connect(m_loginWidget, &LoginWidget::sig_close, this, &mainWindow::close);
 }
 
+mainWindow::~mainWindow()
+{
+
+}
+
 void mainWindow::init()
 {
     m_forbidResize = true;
@@ -28,6 +33,8 @@ void mainWindow::init()
     this->setCentralWidget(m_loginWidget);
 
     m_wechatWidget = nullptr;
+
+    m_tcpMger = new tcpManager(this);
 }
 
 bool mainWindow::event(QEvent *event)
@@ -102,8 +109,17 @@ bool mainWindow::verifyUserInfor(const QString &id, const QString &pwd)
     /*
      * 网络连接服务器，由服务器验证用户信息
      */
+    m_tcpMger->sendData("userId: " + id + "\v password: "  + pwd);
+    QByteArray data = m_tcpMger->receptionData();
 
-    return true;
+    if(QString(data) == "OK")
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void mainWindow::checkMousePosition(const QPoint &mousePoint)
@@ -226,7 +242,7 @@ void mainWindow::slot_userLogin(QString id, QString pwd)
     if(verifyUserInfor(id, pwd))
     {
         m_wechatWidget = new wechatmainwidget(this);
-        m_wechatWidget->setUserId(id);
+        m_wechatWidget->setMyselfId(id);
         m_loginWidget->hide();
         this->resize(m_wechatWidget->size());
         this->setMinimumSize(m_wechatWidget->minimumSize());
@@ -238,12 +254,14 @@ void mainWindow::slot_userLogin(QString id, QString pwd)
         connect(m_wechatWidget, &wechatmainwidget::sig_min, this, &mainWindow::showMinimized);
         connect(m_wechatWidget, &wechatmainwidget::sig_backEnter, this, &mainWindow::slot_turnOffResize);
         connect(m_wechatWidget, &wechatmainwidget::sig_backLeave, this, &mainWindow::slot_turnOnResize);
+        connect(m_wechatWidget, &wechatmainwidget::sig_sendChatData, this, &mainWindow::slot_sendChatData);
     }
     else
     {
         /*
          * 提示用户
          */
+        qDebug() << "账号或密码错误";
     }
 }
 
@@ -273,4 +291,10 @@ void mainWindow::slot_turnOffResize()
     m_forbidResize = true;
     m_cursorEdge = CURSOR_EDGE::none;
     this->setCursor(Qt::ArrowCursor);
+}
+
+void mainWindow::slot_sendChatData(QString targetUserId)
+{
+    QString data = m_wechatWidget->getSendData();
+    m_tcpMger->sendData(targetUserId + " " + data);
 }

@@ -16,6 +16,23 @@ chatWidget::chatWidget(QWidget *parent)
     this->setPalette(palette);
 
     init();
+
+    connect(m_sendBtn, &QPushButton::clicked, this, &chatWidget::slot_sendMessage);
+}
+
+void chatWidget::setCurrentChatingUserId(const QString &id)
+{
+    m_currentChatingUserId = id;
+}
+
+void chatWidget::clearTextEdit()
+{
+    this->m_textEdit->clear();
+}
+
+QString chatWidget::getTextEditData()
+{
+    return m_textEdit->toPlainText();
 }
 
 void chatWidget::init()
@@ -316,8 +333,6 @@ void chatWidget::init()
     )");
     m_sendBtnLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
     m_sendBtnLayout->addWidget(m_sendBtn);
-
-    connect(m_sendBtn, &QPushButton::clicked, this, &chatWidget::sendMessage);
 }
 
 void chatWidget::dealMessage(chatMessageBox *msg, QListWidgetItem *item, QString text, QString time, chatMessageBox::MSG_TYPE type)
@@ -358,15 +373,14 @@ QString chatWidget::getUserName()
     return "R0621";
 }
 
-void chatWidget::sendMessage()
+void chatWidget::slot_sendMessage()
 {
     QString msg = m_textEdit->toPlainText();
-    m_textEdit->setText("");
     QString time = QString::number(QDateTime::currentMSecsSinceEpoch()); //时间戳
 
     chatMessageBox* messageBox = new chatMessageBox(m_listwidget);
     QListWidgetItem* item = new QListWidgetItem(m_listwidget);
     dealMessage(messageBox, item, msg, time, chatMessageBox::ME);
 
-//    emit sig_lastMessage(messageBox->getMessageText());
+    emit sig_sendChatData(m_currentChatingUserId);
 }
