@@ -21,6 +21,8 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <QStackedWidget>
+
 
 class chatWidget : public QWidget
 {
@@ -33,6 +35,8 @@ public:
 
 protected:
     void init();
+    void noneWidgetInit();
+    void chatingWidgetInit();
     void dealMessage(chatMessageBox *msg, QListWidgetItem *item, QString text, QString time, chatMessageBox::MSG_TYPE type);
 
     void resizeEvent(QResizeEvent *event);
@@ -49,16 +53,22 @@ protected slots:
 private:
     QString m_currentChatingUserId;
 
-    QVBoxLayout *m_layout;              /* 聊天界面总布局 */
+    QVBoxLayout *m_layout;              /* 总窗口界面布局 */
+    QVBoxLayout *m_noneLayout;          /* 空聊天界面总布局 */
+    QVBoxLayout *m_chatingLayout;       /* 聊天子界面总布局 */
     QVBoxLayout *m_textInlayout;        /* 文本输入界面布局 */
     QHBoxLayout *m_chatToolBarLayout;   /* 聊天工具栏布局 */
     QHBoxLayout *m_sendBtnLayout;       /* 发送按钮布局 */
     QHBoxLayout *m_userInfoLayout;      /* 用户信息布局 */
 
+    QStackedWidget *m_stkedWidget;      /* 界面切换控制 */
+    QWidget *m_noneWidget;              /* 空的聊天子界面 */
+    QWidget *m_chatingWidget;           /* 用户聊天子界面 */
     QWidget *m_userInfoWidget;          /* 用户信息界面 */
-    QListWidget *m_listwidget;          /* 聊天信息列表 */
     QWidget *m_textInWidget;            /* 文本输入界面 */
+    QListWidget *m_listwidget;          /* 聊天信息列表 */
 
+    QLabel *m_logol;                    /* 空的聊天子界面中显示的图标 */
     QLabel *m_userNameLabel;            /* 用户名标签 */
 
     QTextEdit *m_textEdit;              /* 文本输入框 */

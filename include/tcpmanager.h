@@ -9,8 +9,12 @@ class tcpManager : public QObject
 public:
     tcpManager(QObject *parent);
     ~tcpManager();
+
     int64_t sendData(QString data);
     QByteArray receptionData();
+
+    bool isConnected();
+    void connectToServer();
 
 signals:
 

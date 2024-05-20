@@ -11,6 +11,24 @@ friendListWidget::friendListWidget(QWidget *parent)
     this->setFixedWidth(WIDGETWIDTH);
 
     init();
+    addfriendItem("0");
+    addfriendItem("zdin404");
+
+    connect(m_bottomWidget, &QListWidget::itemClicked, this, [&](QListWidgetItem *item){
+        friendlistItem* frientItem = static_cast<friendlistItem*>(m_bottomWidget->itemWidget(item));
+        qDebug() << "item clicked, id: " << frientItem->getFriendId() << "row: " << m_bottomWidget->row(item);
+    });
+}
+
+void friendListWidget::addfriendItem(const QString &friendId)
+{
+    friendlistItem *item = new friendlistItem(m_bottomWidget);
+    item->setFriendId(friendId);
+
+    QListWidgetItem *listwidgetItem = new QListWidgetItem();
+    listwidgetItem->setSizeHint(item->size());
+    m_bottomWidget->insertItem(m_bottomWidget->count(), listwidgetItem);
+    m_bottomWidget->setItemWidget(listwidgetItem, item);
 }
 
 void friendListWidget::init()
@@ -101,20 +119,4 @@ void friendListWidget::init()
 
     topLayout->addWidget(m_searchLineEdit);
     topLayout->addWidget(m_createGroupChat);
-
-    friendlistItem *item1 = new friendlistItem(m_bottomWidget);
-    friendlistItem *item2 = new friendlistItem(m_bottomWidget);
-    item1->setFriendId("0");
-    item2->setFriendId("1");
-
-    QListWidgetItem *listwidgetItem = new QListWidgetItem();
-    listwidgetItem->setSizeHint(item1->size());
-    m_bottomWidget->insertItem(0, listwidgetItem);
-    m_bottomWidget->setItemWidget(listwidgetItem, item1);
-
-
-    QListWidgetItem *listwidgetItem2 = new QListWidgetItem();
-    listwidgetItem2->setSizeHint(item2->size());
-    m_bottomWidget->insertItem(1, listwidgetItem2);
-    m_bottomWidget->setItemWidget(listwidgetItem2, item2);
 }

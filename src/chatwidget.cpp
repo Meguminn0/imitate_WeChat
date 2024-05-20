@@ -42,7 +42,59 @@ void chatWidget::init()
     m_layout->setSpacing(0);
     this->setLayout(m_layout);
 
-    m_userInfoWidget = new QWidget(this);
+    m_stkedWidget = new QStackedWidget(this);
+    m_layout->addWidget(m_stkedWidget);
+
+    noneWidgetInit();
+    chatingWidgetInit();
+
+    m_stkedWidget->addWidget(m_noneWidget);
+    m_stkedWidget->addWidget(m_chatingWidget);
+
+    m_stkedWidget->setCurrentIndex(0);
+}
+
+/*
+ * @briefly  noneWidgetInit 函数用于为没有聊天对象时的显示界面进行初始化
+ */
+void chatWidget::noneWidgetInit()
+{
+    m_noneWidget = new QWidget(this);
+//    m_noneWidget->setStyleSheet(R"(
+//        QWidget {
+//            background-color: rgb(245, 245, 245);
+//            border: none;
+//        }
+//)");
+
+    m_noneLayout = new QVBoxLayout();
+    m_noneLayout->setContentsMargins(0, 0, 0, 0);
+    m_noneLayout->setSpacing(0);
+    m_noneWidget->setLayout(m_noneLayout);
+
+    m_logol = new QLabel(m_noneWidget);
+    m_logol->setFixedSize(50, 50);
+    QPixmap pix(m_logol->size());
+    pix.load(":/img/icon/chat.png");
+    m_logol->setPixmap(pix);
+
+    m_noneLayout->addWidget(m_logol);
+}
+
+/*
+ * @briefly  chatingWidgetInit 函数用于为有聊天对象时的显示界面进行初始化
+ */
+void chatWidget::chatingWidgetInit()
+{
+    m_chatingWidget = new QWidget(this);
+
+    m_chatingLayout = new QVBoxLayout();
+    m_chatingLayout->setContentsMargins(0, 0, 0, 0);
+    m_chatingLayout->setSpacing(0);
+
+    m_chatingWidget->setLayout(m_chatingLayout);
+
+    m_userInfoWidget = new QWidget(m_chatingWidget);
     m_userInfoWidget->setFixedHeight(64);
     m_userInfoWidget->setStyleSheet(R"(
         QWidget {
@@ -53,7 +105,7 @@ void chatWidget::init()
             border-right: 1px solid rgb(208, 208, 208);
         }
     )");
-    m_layout->addWidget(m_userInfoWidget);
+    m_chatingLayout->addWidget(m_userInfoWidget);
 
     m_userInfoLayout = new QHBoxLayout();
     m_userInfoLayout->setContentsMargins(25, 10, 10, 0);
@@ -88,7 +140,7 @@ void chatWidget::init()
     )");
     m_userInfoLayout->addWidget(m_chatInfoBtn);
 
-    m_listwidget = new QListWidget(this);
+    m_listwidget = new QListWidget(m_chatingWidget);
     m_listwidget->setStyleSheet(R"(
         QListWidget {
             background-color: rgba(0, 0, 0, 0);
@@ -147,9 +199,9 @@ void chatWidget::init()
     m_listwidget->setVerticalScrollBar(listWidgetVerticalBar);
     m_listwidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_listwidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-    m_layout->addWidget(m_listwidget);
+    m_chatingLayout->addWidget(m_listwidget);
 
-    m_textInWidget = new QWidget(this);
+    m_textInWidget = new QWidget(m_chatingWidget);
     m_textInWidget->setFixedHeight(220);
     m_textInWidget->setStyleSheet(R"(
         QWidget {
@@ -157,7 +209,7 @@ void chatWidget::init()
             border-top: none;
         }
     )");
-    m_layout->addWidget(m_textInWidget, 1);
+    m_chatingLayout->addWidget(m_textInWidget, 1);
 
     m_textInlayout = new QVBoxLayout();
     m_textInlayout->setContentsMargins(20, 0, 20, 10);

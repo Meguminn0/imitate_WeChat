@@ -9,12 +9,23 @@ friendlistItem::friendlistItem(QWidget *parent)
 {
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::CustomizeWindowHint);
     this->setFixedSize(QSize(parent->width(), 65));
-    init();
+
+    m_layout = nullptr;
+    m_leftLayout  = nullptr;
+    m_rightLayout = nullptr;
+    m_rightTopLayout = nullptr;
+    m_rightBottomLayout = nullptr;
+
+    m_friendHeadLabel = nullptr;
+    m_friendNameLabel = nullptr;
+    m_lastMessageLabel = nullptr;
+    m_lastChatTimeLabel = nullptr;
 }
 
 void friendlistItem::setFriendId(const QString& id)
 {
     this->m_friendId = id;
+    init();
 }
 
 QString friendlistItem::getFriendId()
@@ -54,18 +65,18 @@ void friendlistItem::init()
     m_friendHeadLabel->setScaledContents(true);
     m_friendHeadLabel->setPixmap(getFriendHeadPix());
 
-    m_friendNameLabel = new QLabel(this);
-    m_friendNameLabel->setFont(QFont("微软雅黑", 10));
-    m_friendNameLabel->setAlignment(Qt::AlignLeft);
-    m_friendNameLabel->setFixedSize(getFriendNameSize());
-    m_friendNameLabel->setText(m_friendName);
-
     m_lastChatTimeLabel = new QLabel(this);
     m_lastChatTimeLabel->setFont(QFont("微软雅黑", 8));
     m_lastChatTimeLabel->setAlignment(Qt::AlignRight);
     m_lastChatTimeLabel->setFixedSize(getLastChatTimeSize());
     m_lastChatTimeLabel->setText(m_lastChatTime);
     m_lastChatTimeLabel->setStyleSheet("QLabel{ color: rgb(157, 157, 157) }");
+
+    m_friendNameLabel = new QLabel(this);
+    m_friendNameLabel->setFont(QFont("微软雅黑", 10));
+    m_friendNameLabel->setAlignment(Qt::AlignLeft);
+    m_friendNameLabel->setFixedSize(getFriendNameSize());
+    m_friendNameLabel->setText(m_friendName);
 
     m_lastMessageLabel = new QLabel(this);
     m_lastMessageLabel->setFont(QFont("微软雅黑", 8));
@@ -113,8 +124,7 @@ QPixmap friendlistItem::getFriendHeadPix()
 
 void friendlistItem::setFriendName()
 {
-    static int num = 1;
-    m_friendName = QString("好友") + QString::number(num);
+    m_friendName = m_friendId;
 }
 
 QSize friendlistItem::getFriendNameSize()

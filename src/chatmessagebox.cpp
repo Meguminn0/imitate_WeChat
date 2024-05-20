@@ -146,7 +146,7 @@ void chatMessageBox::initMsgBoxRect()
     m_himMsgBoxTextRect = QRect(m_himMsgBoxRect.x() + textSpacing, m_himMsgBoxRect.y() + textSpacing / 2,
                                 textSize.width(), textSize.height());
     m_myMsgBoxTextRect = QRect(m_myMsgBoxRect.x() + textSpacing, m_myMsgBoxRect.y() + textSpacing / 2,
-                                textSize.width(),  textSize.height());
+                                textSize.width() + textSpacing / 4,  textSize.height());
 }
 
 /*

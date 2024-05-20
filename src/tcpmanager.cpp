@@ -5,8 +5,8 @@ tcpManager::tcpManager(QObject *parent)
     : QObject(parent)
 {
     m_clientSocket = new QTcpSocket(this);
-    unsigned int port = 2024;
-    m_clientSocket->connectToHost(QHostAddress("127.0.0.1"), port);
+
+    connectToServer();
 
     connect(m_clientSocket, &QTcpSocket::connected, this, [](){
         qDebug() << "连接成功";
@@ -39,7 +39,32 @@ QByteArray tcpManager::receptionData()
     }
     else
     {
+        qDebug() << "网络连接超时....";
         return "";
+    }
+}
+
+bool tcpManager::isConnected()
+{
+    if(m_clientSocket->state() == QAbstractSocket::ConnectedState)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void tcpManager::connectToServer()
+{
+    if(m_clientSocket->state() == QAbstractSocket::UnconnectedState)
+    {
+        m_clientSocket->connectToHost(QHostAddress("127.0.0.1"), 2024);
+    }
+    else
+    {
+        qDebug() << "服务器已连接";
     }
 }
 

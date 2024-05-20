@@ -28,8 +28,10 @@ LoginWidget::~LoginWidget()
 void LoginWidget::slot_loginCheck()
 {
     // 获取当前用户的账号和密码
+    QString userName = "userName";
+    QString userPassword = "userPassword";
 
-    emit this->sig_login("123", "123");
+    emit this->sig_login(userName, userPassword);
 }
 
 void LoginWidget::init()

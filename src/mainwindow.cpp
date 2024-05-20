@@ -109,17 +109,17 @@ bool mainWindow::verifyUserInfor(const QString &id, const QString &pwd)
     /*
      * 网络连接服务器，由服务器验证用户信息
      */
-    m_tcpMger->sendData("userId: " + id + "\v password: "  + pwd);
-    QByteArray data = m_tcpMger->receptionData();
+    if(m_tcpMger->isConnected())
+    {
+        m_tcpMger->sendData("userId: " + id + "\t password: "  + pwd);
+        QByteArray data = m_tcpMger->receptionData();
+        if(QString(data) == "OK")
+        {
+            return true;
+        }
+    }
 
-    if(QString(data) == "OK")
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return false;
 }
 
 void mainWindow::checkMousePosition(const QPoint &mousePoint)

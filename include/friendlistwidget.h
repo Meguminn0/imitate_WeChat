@@ -29,7 +29,7 @@ public:
 
     explicit friendListWidget(QWidget *parent = nullptr);
 
-    void addfriendItem();
+    void addfriendItem(const QString &friendId);
 
 protected:
     void init();
