@@ -30,7 +30,6 @@ public:
 
     void setMyselfId(const QString& id);
     void setContentsMargins(int left, int top, int right, int bottom);
-    QString getSendData();
 
 protected:
 
@@ -43,7 +42,6 @@ signals:
     void sig_min();
     void sig_backEnter();
     void sig_backLeave();
-    void sig_sendChatData(QString targetUserId);
 
 private slots:
 

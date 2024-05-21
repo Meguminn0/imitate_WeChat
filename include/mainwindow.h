@@ -63,7 +63,6 @@ protected slots:
     void slot_fullScreen();
     void slot_turnOnResize();
     void slot_turnOffResize();
-    void slot_sendChatData(QString targetUserId);
 
 private:
     bool m_forbidResize;
@@ -75,7 +74,6 @@ private:
 
     LoginWidget *m_loginWidget;
     wechatmainwidget *m_wechatWidget;
-    tcpManager *m_tcpMger;
 };
 
 #endif // MAINWINDOW_H

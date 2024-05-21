@@ -33,8 +33,6 @@ void mainWindow::init()
     this->setCentralWidget(m_loginWidget);
 
     m_wechatWidget = nullptr;
-
-    m_tcpMger = new tcpManager(this);
 }
 
 bool mainWindow::event(QEvent *event)
@@ -109,10 +107,12 @@ bool mainWindow::verifyUserInfor(const QString &id, const QString &pwd)
     /*
      * 网络连接服务器，由服务器验证用户信息
      */
-    if(m_tcpMger->isConnected())
+
+    tcpManager *tcpMgr = tcpManager::getInstance();
+    if(tcpMgr->isConnected())
     {
-        m_tcpMger->sendData("userId: " + id + "\t password: "  + pwd);
-        QByteArray data = m_tcpMger->receptionData();
+        tcpMgr->sendData("userId: " + id + "\t password: "  + pwd);
+        QByteArray data = tcpMgr->receptionData();
         if(QString(data) == "OK")
         {
             return true;
@@ -254,7 +254,6 @@ void mainWindow::slot_userLogin(QString id, QString pwd)
         connect(m_wechatWidget, &wechatmainwidget::sig_min, this, &mainWindow::showMinimized);
         connect(m_wechatWidget, &wechatmainwidget::sig_backEnter, this, &mainWindow::slot_turnOffResize);
         connect(m_wechatWidget, &wechatmainwidget::sig_backLeave, this, &mainWindow::slot_turnOnResize);
-        connect(m_wechatWidget, &wechatmainwidget::sig_sendChatData, this, &mainWindow::slot_sendChatData);
     }
     else
     {
@@ -291,10 +290,4 @@ void mainWindow::slot_turnOffResize()
     m_forbidResize = true;
     m_cursorEdge = CURSOR_EDGE::none;
     this->setCursor(Qt::ArrowCursor);
-}
-
-void mainWindow::slot_sendChatData(QString targetUserId)
-{
-    QString data = m_wechatWidget->getSendData();
-    m_tcpMger->sendData(targetUserId + " " + data);
 }

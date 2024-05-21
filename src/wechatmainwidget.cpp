@@ -31,7 +31,6 @@ wechatmainwidget::wechatmainwidget(QWidget *parent)
     connect(m_background_widget, &backGroundWidget::sig_min, this, &wechatmainwidget::sig_min);
     connect(m_background_widget, &backGroundWidget::sig_enter, this, &wechatmainwidget::sig_backEnter);
     connect(m_background_widget, &backGroundWidget::sig_leave, this, &wechatmainwidget::sig_backLeave);
-    connect(m_chatWidget, &chatWidget::sig_sendChatData, this, &wechatmainwidget::sig_sendChatData);
 }
 
 void wechatmainwidget::setMyselfId(const QString &id)
@@ -42,13 +41,6 @@ void wechatmainwidget::setMyselfId(const QString &id)
 void wechatmainwidget::setContentsMargins(int left, int top, int right, int bottom)
 {
     this->m_layout->setContentsMargins(left, top, right, bottom);
-}
-
-QString wechatmainwidget::getSendData()
-{
-    QString data = m_chatWidget->getTextEditData();
-    m_chatWidget->clearTextEdit();
-    return data;
 }
 
 void wechatmainwidget::init()

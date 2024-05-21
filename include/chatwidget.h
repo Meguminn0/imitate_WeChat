@@ -30,8 +30,6 @@ class chatWidget : public QWidget
 public:
     explicit chatWidget(QWidget *parent = nullptr);
     void setCurrentChatingUserId(const QString &id);
-    void clearTextEdit();
-    QString getTextEditData();
 
 protected:
     void init();
@@ -45,7 +43,6 @@ protected:
     QString getUserName();
 
 signals:
-    void sig_sendChatData(QString targetUserId);
 
 protected slots:
     void slot_sendMessage();
@@ -54,7 +51,7 @@ private:
     QString m_currentChatingUserId;
 
     QVBoxLayout *m_layout;              /* 总窗口界面布局 */
-    QVBoxLayout *m_noneLayout;          /* 空聊天界面总布局 */
+    QGridLayout *m_noneLayout;          /* 空聊天界面总布局 */
     QVBoxLayout *m_chatingLayout;       /* 聊天子界面总布局 */
     QVBoxLayout *m_textInlayout;        /* 文本输入界面布局 */
     QHBoxLayout *m_chatToolBarLayout;   /* 聊天工具栏布局 */

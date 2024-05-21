@@ -1,21 +1,17 @@
 #include "include/tcpmanager.h"
 #include <QTcpSocket>
+#include <mutex>
 
-tcpManager::tcpManager(QObject *parent)
-    : QObject(parent)
+std::once_flag tcpManager::m_singleOnceFlag;
+std::shared_ptr<tcpManager> tcpManager::m_singleInstance = nullptr;
+
+tcpManager *tcpManager::getInstance()
 {
-    m_clientSocket = new QTcpSocket(this);
-
-    connectToServer();
-
-    connect(m_clientSocket, &QTcpSocket::connected, this, [](){
-        qDebug() << "连接成功";
+    std::call_once(m_singleOnceFlag, [&](){
+        m_singleInstance.reset(new tcpManager());
     });
-}
 
-tcpManager::~tcpManager()
-{
-    m_clientSocket->close();
+    return m_singleInstance.get();
 }
 
 int64_t tcpManager::sendData(QString data)
@@ -65,6 +61,28 @@ void tcpManager::connectToServer()
     else
     {
         qDebug() << "服务器已连接";
+    }
+}
+
+tcpManager::tcpManager(QObject *parent)
+    : QObject(parent)
+{
+    m_clientSocket = new QTcpSocket(this);
+
+    connectToServer();
+
+    connect(m_clientSocket, &QTcpSocket::connected, this, [](){
+        qDebug() << "连接成功";
+    });
+}
+
+tcpManager::~tcpManager()
+{
+    if(m_clientSocket)
+    {
+        m_clientSocket->close();
+        delete m_clientSocket;
+        m_clientSocket = nullptr;
     }
 }
 

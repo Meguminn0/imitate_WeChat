@@ -1,5 +1,6 @@
 #include "include/chatMessagebox.h"
 #include "include/chatwidget.h"
+#include "include/tcpmanager.h"
 
 #include <QDateTime>
 #include <QDebug>
@@ -25,16 +26,6 @@ void chatWidget::setCurrentChatingUserId(const QString &id)
     m_currentChatingUserId = id;
 }
 
-void chatWidget::clearTextEdit()
-{
-    this->m_textEdit->clear();
-}
-
-QString chatWidget::getTextEditData()
-{
-    return m_textEdit->toPlainText();
-}
-
 void chatWidget::init()
 {
     m_layout = new QVBoxLayout();
@@ -51,7 +42,7 @@ void chatWidget::init()
     m_stkedWidget->addWidget(m_noneWidget);
     m_stkedWidget->addWidget(m_chatingWidget);
 
-    m_stkedWidget->setCurrentIndex(0);
+    m_stkedWidget->setCurrentIndex(1);
 }
 
 /*
@@ -60,25 +51,30 @@ void chatWidget::init()
 void chatWidget::noneWidgetInit()
 {
     m_noneWidget = new QWidget(this);
-//    m_noneWidget->setStyleSheet(R"(
-//        QWidget {
-//            background-color: rgb(245, 245, 245);
-//            border: none;
-//        }
-//)");
+    m_noneWidget->setStyleSheet(R"(
+        QWidget {
+            background-color: rgb(245, 245, 245);
+            border: 1xp solid rgb(214, 214, 214);
+        }
+)");
 
-    m_noneLayout = new QVBoxLayout();
+    m_noneLayout = new QGridLayout();
     m_noneLayout->setContentsMargins(0, 0, 0, 0);
     m_noneLayout->setSpacing(0);
     m_noneWidget->setLayout(m_noneLayout);
 
     m_logol = new QLabel(m_noneWidget);
-    m_logol->setFixedSize(50, 50);
-    QPixmap pix(m_logol->size());
-    pix.load(":/img/icon/chat.png");
+    m_logol->setFixedSize(100, 100);
+    QPixmap pix(":/img/icon/oneChat.png");
+    pix = pix.scaled(m_logol->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     m_logol->setPixmap(pix);
+    m_logol->setAlignment(Qt::AlignCenter);
 
-    m_noneLayout->addWidget(m_logol);
+    m_noneLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding), 0, 1);
+    m_noneLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding), 1, 0);
+    m_noneLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding), 1, 2);
+    m_noneLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding), 2, 1);
+    m_noneLayout->addWidget(m_logol, 1, 1);
 }
 
 /*
@@ -405,8 +401,12 @@ void chatWidget::resizeEvent(QResizeEvent *event)
     {
         chatMessageBox *msgBox = (chatMessageBox*)m_listwidget->itemWidget(m_listwidget->item(i));
         QListWidgetItem *item = m_listwidget->item(i);
+        msgBox->setFixedWidth(m_listwidget->width());
+        QSize size = msgBox->setText(msgBox->getMessageText(), msgBox->getSendTime(), msgBox->getMsgType());
+        item->setSizeHint(size);
+        msgBox->update();
 
-        dealMessage(msgBox, item, msgBox->getMessageText(), msgBox->getSendTime(), msgBox->getMsgType());
+//        dealMessage(msgBox, item, msgBox->getMessageText(), msgBox->getSendTime(), msgBox->getMsgType());
     }
 }
 
@@ -428,11 +428,12 @@ QString chatWidget::getUserName()
 void chatWidget::slot_sendMessage()
 {
     QString msg = m_textEdit->toPlainText();
+    m_textEdit->clear();
     QString time = QString::number(QDateTime::currentMSecsSinceEpoch()); //时间戳
 
     chatMessageBox* messageBox = new chatMessageBox(m_listwidget);
     QListWidgetItem* item = new QListWidgetItem(m_listwidget);
     dealMessage(messageBox, item, msg, time, chatMessageBox::ME);
 
-    emit sig_sendChatData(m_currentChatingUserId);
+    tcpManager::getInstance()->sendData(m_currentChatingUserId + " " + msg);
 }
